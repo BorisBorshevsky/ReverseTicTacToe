@@ -58,7 +58,7 @@ namespace ReverseTicTacToeLogic
             
             if (m_board.GetLength(0) > i_coordinates.X || m_board.GetLength(1) > i_coordinates.Y)
             {
-                isValidMove = m_board[i_coordinates.X, i_coordinates.Y] != Symbol.Blank;
+                isValidMove = m_board[i_coordinates.X, i_coordinates.Y] == Symbol.Blank;
             }
 
             return isValidMove;

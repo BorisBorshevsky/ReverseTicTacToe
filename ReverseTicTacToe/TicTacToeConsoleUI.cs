@@ -22,9 +22,7 @@ namespace ReverseTicTacToe
                 Point? pointToDraw = getToDrawFromUser(size);
                 if (pointToDraw == null)
                 {
-                    size = getBoardSize();
-                    m_game = new TicTacToe(size);
-                    playerType = getOpponentType();
+                    m_game.Restart();
                     continue;
                 }
                 
@@ -78,6 +76,7 @@ namespace ReverseTicTacToe
         private static void PlayTurn(int size, Point? pointToDraw, Symbol symbol)
         {
             bool wasSuccess = m_game.PlayTurn(pointToDraw.Value, symbol);
+            printBoard();
             while (!wasSuccess)
             {
                 Console.WriteLine("The location already chosen, choose another");
