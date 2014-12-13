@@ -25,24 +25,24 @@ namespace ReverseTicTacToe
         private static int getBoardSize()
         {
             Console.WriteLine("Enter board size (3-9)");
-            char input = Console.Read();
+            char input = (char)Console.Read();
             while (!Char.IsNumber(input) || Char.GetNumericValue(input) < 3)
             {
                 Console.WriteLine("Invalid input, Enter board size (3-9)");
-                char input = Console.Read();
+                input = (char)Console.Read();
             }
 
-            return Char.GetNumericValue(input);
+            return (int)Char.GetNumericValue(input);
         }
 
         private static playerType getOpponentType()
         {
             Console.WriteLine("Enter player type (1 = human, 2 = PC)");
-            char input = Console.Read();
+            char input = (char)Console.Read();
             while (!Char.IsNumber(input) || Char.GetNumericValue(input) < 1 || Char.GetNumericValue(input) > 2)
             {
-                Console.WriteLine("Invalid input, Enter player type (1 = human, 2 = PC)"");
-                char input = Console.Read();
+                Console.WriteLine("Invalid input, Enter player type (1 = human, 2 = PC)");
+                input = (char)Console.Read();
             }
 
             return (playerType)Char.GetNumericValue(input);
@@ -50,17 +50,18 @@ namespace ReverseTicTacToe
 
         private static void printBoard()
         {
-            int rowLength = m_game..GetLength(0);
-            int colLength = arr.GetLength(1);
+            
+            /*int rowLength = m_game.m_board.get(0);
+            int colLength = m_game.m_board.GetLength(1);
 
             for (int i = 0; i < rowLength; i++)
             {
                 for (int j = 0; j < colLength; j++)
                 {
-                    Console.Write(string.Format("{0} ", arr[i, j]));
+                    //Console.Write(string.Format("{0} ", m_game.m_board[i, j]));
                 }
                 Console.Write(Environment.NewLine + Environment.NewLine);
-            }
+            }98*/
         }
 
         private static void printScores()
