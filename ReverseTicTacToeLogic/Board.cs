@@ -14,6 +14,11 @@ namespace ReverseTicTacToeLogic
             m_board = new Symbol[size, size];
         }
 
+        public Symbol[,] getData()
+        {
+            return m_board;
+        }
+
         public void initializeBoard()
         {
             for (int row = 0; row < m_board.GetLength(0); row++)
