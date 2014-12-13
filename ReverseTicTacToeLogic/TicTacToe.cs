@@ -17,8 +17,8 @@ namespace ReverseTicTacToeLogic
             m_board = new Board(size);
             m_board.initializeBoard();
         }
-                
-        public bool PlayTurn()
+
+        public bool PlayTurn(Symbol i_PlayersSymbol)
         {
             return false;
         }
@@ -158,6 +158,11 @@ namespace ReverseTicTacToeLogic
             
         }
 
+
+        public void Restart()
+        {
+            Board.initializeBoard();
+        }
 
         public bool isStreightLineAchieved { get; set; }
     }
