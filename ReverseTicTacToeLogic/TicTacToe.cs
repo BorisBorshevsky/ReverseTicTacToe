@@ -22,14 +22,20 @@ namespace ReverseTicTacToeLogic
             return false;
         }
 
-        public bool PlayTurn(int x, int y)
-        {   
-            return false;
-        }
-
-        public bool PlayTurn(Point i_coordinates)
+        public bool PlayTurn(Point i_coordinates, Symbol i_PlayersSymbol)
         {
-            return false;
+            bool isPlayedSucceded = true;
+            
+            if (!Board.IsValidMove(i_coordinates))
+            {
+                isPlayedSucceded = false;
+            }
+            else
+            {
+                Board.SetSymbol(i_PlayersSymbol, i_coordinates);
+            }
+            
+            return isPlayedSucceded;
         }
 
         public bool IsGameFinished()
