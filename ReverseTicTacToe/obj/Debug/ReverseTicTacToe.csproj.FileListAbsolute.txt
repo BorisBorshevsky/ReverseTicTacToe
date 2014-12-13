@@ -6,3 +6,11 @@ C:\projects\Private\HIT\ReverseTicTacToe\ReverseTicTacToe\obj\Debug\ReverseTicTa
 C:\projects\Private\HIT\ReverseTicTacToe\ReverseTicTacToe\obj\Debug\ReverseTicTacToe.pdb
 C:\projects\Private\HIT\ReverseTicTacToe\ReverseTicTacToe\bin\Debug\ReverseTicTacToeLogic.dll
 C:\projects\Private\HIT\ReverseTicTacToe\ReverseTicTacToe\bin\Debug\ReverseTicTacToeLogic.pdb
+C:\Users\user\Source\Repos\ReverseTicTacToe\ReverseTicTacToe\obj\Debug\ReverseTicTacToe.exe
+C:\Users\user\Source\Repos\ReverseTicTacToe\ReverseTicTacToe\obj\Debug\ReverseTicTacToe.pdb
+C:\Users\user\Source\Repos\ReverseTicTacToe\ReverseTicTacToe\bin\Debug\ReverseTicTacToe.exe
+C:\Users\user\Source\Repos\ReverseTicTacToe\ReverseTicTacToe\bin\Debug\ReverseTicTacToe.pdb
+C:\Users\user\Source\Repos\ReverseTicTacToe\ReverseTicTacToe\bin\Debug\Ex02.ConsoleUtils.dll
+C:\Users\user\Source\Repos\ReverseTicTacToe\ReverseTicTacToe\bin\Debug\ReverseTicTacToeLogic.dll
+C:\Users\user\Source\Repos\ReverseTicTacToe\ReverseTicTacToe\bin\Debug\ReverseTicTacToeLogic.pdb
+C:\Users\user\Source\Repos\ReverseTicTacToe\ReverseTicTacToe\obj\Debug\ReverseTicTacToe.csprojResolveAssemblyReference.cache

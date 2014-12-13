@@ -3,3 +3,8 @@ C:\projects\Private\HIT\ReverseTicTacToe\ReverseTicTacToeLogic\bin\Debug\Reverse
 C:\projects\Private\HIT\ReverseTicTacToe\ReverseTicTacToeLogic\obj\Debug\ReverseTicTacToeLogic.dll
 C:\projects\Private\HIT\ReverseTicTacToe\ReverseTicTacToeLogic\obj\Debug\ReverseTicTacToeLogic.pdb
 C:\projects\Private\HIT\ReverseTicTacToe\ReverseTicTacToeLogic\obj\Debug\ReverseTicTacToeLogic.csprojResolveAssemblyReference.cache
+C:\Users\user\Source\Repos\ReverseTicTacToe\ReverseTicTacToeLogic\obj\Debug\ReverseTicTacToeLogic.csprojResolveAssemblyReference.cache
+C:\Users\user\Source\Repos\ReverseTicTacToe\ReverseTicTacToeLogic\obj\Debug\ReverseTicTacToeLogic.dll
+C:\Users\user\Source\Repos\ReverseTicTacToe\ReverseTicTacToeLogic\obj\Debug\ReverseTicTacToeLogic.pdb
+C:\Users\user\Source\Repos\ReverseTicTacToe\ReverseTicTacToeLogic\bin\Debug\ReverseTicTacToeLogic.dll
+C:\Users\user\Source\Repos\ReverseTicTacToe\ReverseTicTacToeLogic\bin\Debug\ReverseTicTacToeLogic.pdb
