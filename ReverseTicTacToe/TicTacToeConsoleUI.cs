@@ -15,9 +15,7 @@ namespace ReverseTicTacToe
             int size = getBoardSize();
             m_game = new TicTacToe(size);
             playerType playerType = getOpponentType();
-            
 
-            
             while(true)
             {
                 printBoard();
@@ -29,13 +27,63 @@ namespace ReverseTicTacToe
                     playerType = getOpponentType();
                     continue;
                 }
-
-                m_game.PlayTurn(pointToDraw.Value);
                 
+                //player 1
+                PlayPlayer1(size, pointToDraw);
+                //player 2
+                PlayPlayer2(size, playerType, pointToDraw);
             }
 
             Console.Read();
+        }
 
+        private static void PlayPlayer1(int size, Point? pointToDraw)
+        {
+            PlayTurn(size, pointToDraw, Symbol.X);
+            if (m_game.HasWinner())
+            {
+                Console.WriteLine("The winner is player 2 !!!!!");
+                printScores();
+            }
+
+            if (m_game.Board.IsBoardFull())
+            {
+                Console.WriteLine("The board is full, No winner :(");
+            }
+        }
+
+        private static void PlayPlayer2(int size, playerType playerType, Point? pointToDraw)
+        {
+            if (playerType == ReverseTicTacToe.playerType.User)
+            {
+                PlayTurn(size, pointToDraw, Symbol.O);
+            }
+            else
+            {
+                m_game.PlayTurn(Symbol.O);
+            }
+
+            if (m_game.HasWinner())
+            {
+                Console.WriteLine("The winner is player 1 !!!!!");
+                printScores();
+            }
+
+            if (m_game.Board.IsBoardFull())
+            {
+                Console.WriteLine("The board is full, No winner :(");
+            }
+        }
+
+        private static void PlayTurn(int size, Point? pointToDraw, Symbol symbol)
+        {
+            bool wasSuccess = m_game.PlayTurn(pointToDraw.Value, symbol);
+            while (!wasSuccess)
+            {
+                Console.WriteLine("The location already chosen, choose another");
+                pointToDraw = getToDrawFromUser(size);
+                wasSuccess = m_game.PlayTurn(pointToDraw.Value, symbol);
+            }
         }
 
         private static int getBoardSize()
@@ -111,7 +159,7 @@ namespace ReverseTicTacToe
 
         private static void printScores()
         {
-
+            Console.WriteLine(String.Format("Player1: {0}, Player2: {1}", m_game.GetScores().Player1, m_game.GetScores().Player2));
         }
 
         private static Point? getToDrawFromUser(int boardSize)
