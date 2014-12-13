@@ -10,7 +10,7 @@ namespace ReverseTicTacToe
     {
         public static void Main()
         {
-
+            TicTacToeConsoleUI.Start();
         }
     
     }
