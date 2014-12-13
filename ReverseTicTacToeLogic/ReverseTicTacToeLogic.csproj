@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BA02E97A-45AF-49D4-A37C-79FBB1648C20}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{FAE1C4E6-984E-4725-8E55-7F3DFD5A63C9}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ReverseTicTacToe</RootNamespace>
-    <AssemblyName>ReverseTicTacToe</AssemblyName>
+    <RootNamespace>ReverseTicTacToeLogic</RootNamespace>
+    <AssemblyName>ReverseTicTacToeLogic</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,21 +31,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="PlayerType.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="TicTacToeConsoleUI.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Ex02.ConsoleUtils">
-      <HintPath>..\..\..\..\..\..\Temp\Ex02.ConsoleUtils.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ReverseTicTacToeLogic\ReverseTicTacToeLogic.csproj">
-      <Project>{fae1c4e6-984e-4725-8e55-7f3dfd5a63c9}</Project>
-      <Name>ReverseTicTacToeLogic</Name>
-    </ProjectReference>
+    <Compile Include="Algorithms\ArtificialIntelligenceAlgorithm.cs" />
+    <Compile Include="Algorithms\RandomAlgorithm.cs" />
+    <Compile Include="Board.cs" />
+    <Compile Include="Symbol.cs" />
+    <Compile Include="ScoreBoard.cs" />
+    <Compile Include="TicTacToe.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
