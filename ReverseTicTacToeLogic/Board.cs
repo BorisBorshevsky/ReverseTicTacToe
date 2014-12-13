@@ -9,12 +9,14 @@ namespace ReverseTicTacToeLogic
     {
         private Symbol[,] m_board;
 
+        public int Size { get { return m_board.GetLength(0); } }
+
         public Board(int size)
         {
             m_board = new Symbol[size, size];
         }
 
-        public Symbol[,] getData()
+        public Symbol[,] GetData()
         {
             return m_board;
         }
@@ -62,9 +64,23 @@ namespace ReverseTicTacToeLogic
             return isValidMove;
         }
 
-        public void SetSymbol(Symbol i_symbol, int i_row, int i_col)
+        public void SetSymbol(Symbol i_symbol, Point i_coordinates)
         {
-
+            if (IsValidMove(i_coordinates))
+            {
+                m_board[i_coordinates.X, i_coordinates.Y] = i_symbol;
+            }
         }
+        public Symbol GetSymbol(Point i_coordinates)
+        {
+            return m_board[i_coordinates.X, i_coordinates.Y];
+        }
+
+        public Symbol GetSymbol(int i_row, int i_column)
+        {
+            return m_board[i_row, i_column];
+        }
+
+
     }
 }
