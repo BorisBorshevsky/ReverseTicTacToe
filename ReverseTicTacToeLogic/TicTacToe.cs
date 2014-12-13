@@ -7,8 +7,10 @@ namespace ReverseTicTacToeLogic
 {
     public class TicTacToe
     {
-        public Board m_board { get; private set; }
+        private Board m_board;
         private ScoreBoard m_scores;
+
+        public Board Board { get { return m_board; }}
 
         public TicTacToe(int size)
         {
@@ -30,10 +32,6 @@ namespace ReverseTicTacToeLogic
             return true;
         }
 
-        public bool IsBoardFull()
-        {
-            return true;
-        }
 
         public ScoreBoard.Scores GetScores()
         {
