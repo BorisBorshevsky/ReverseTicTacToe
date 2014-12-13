@@ -15,6 +15,7 @@ namespace ReverseTicTacToeLogic
         public TicTacToe(int size)
         {
             m_board = new Board(size);
+            m_board.initializeBoard();
         }
                 
         public bool PlayTurn()
@@ -34,29 +35,41 @@ namespace ReverseTicTacToeLogic
             {
                 Board.SetSymbol(i_PlayersSymbol, i_coordinates);
             }
-            
+
+            if (HasWinner())
+            {
+                if (i_PlayersSymbol == Symbol.X)
+                {
+                    m_scores.AddWinToPlayer2();
+                }
+                else
+                {
+                    m_scores.AddWinToPlayer1();
+                }
+            }
+
             return isPlayedSucceded;
         }
 
-        public bool IsGameFinished()
+        public bool HasWinner()
         {
-            bool isGameFinished = false;
+            bool isStreightLineAchieved = false;
             
             for (int index = 0; index < Board.Size; index++)
             {
                 if (isRowStreightLine(index) || isColumnStrightLine(index))
                 {
-                    isGameFinished = true;
+                    isStreightLineAchieved = true;
                     break;
                 }    
             }
 
             if (isAntiDiagonalStreightLine() || isDiagonalStreightLine())
             {
-                isGameFinished = true;
+                isStreightLineAchieved = true;
             }
-            
-            return isGameFinished;
+
+            return isStreightLineAchieved;
         }
 
         private bool isColumnStrightLine(int i_column)
@@ -132,10 +145,20 @@ namespace ReverseTicTacToeLogic
             return m_scores.GetScores();
         }
 
-        public void Surrender()
+        public void Surrender(Symbol i_PlayersSymbol)
         {
-
+            if (i_PlayersSymbol == Symbol.X)
+            {
+                m_scores.AddWinToPlayer2();
+            }
+            else
+            {
+                m_scores.AddWinToPlayer1();
+            }
+            
         }
 
+
+        public bool isStreightLineAchieved { get; set; }
     }
 }
