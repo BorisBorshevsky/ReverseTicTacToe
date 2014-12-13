@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 
 namespace ReverseTicTacToeLogic
 {
     public class TicTacToe
     {
-        private Board m_board;
+        public Board m_board { get; private set; }
         private ScoreBoard m_scores;
 
         public TicTacToe(int size)
