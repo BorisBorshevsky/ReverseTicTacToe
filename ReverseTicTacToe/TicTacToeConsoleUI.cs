@@ -27,34 +27,51 @@ namespace ReverseTicTacToe
                 }
                 
                 //player 1
-                PlayPlayer1(size, pointToDraw);
+                bool continuePlay = PlayPlayer1(size, pointToDraw);
+                if (continuePlay == false)
+                {
+                    Console.WriteLine("Do you want another game?");
+                    m_game.Restart();
+                    continue;
+                }
+
                 //player 2
-                PlayPlayer2(size, playerType, pointToDraw);
+                continuePlay = PlayPlayer2(size, playerType, pointToDraw);
+                if (continuePlay == false)
+                {
+                    m_game.Restart();
+                    continue;
+                }
             }
 
             Console.Read();
         }
 
-        private static void PlayPlayer1(int size, Point? pointToDraw)
+        private static bool PlayPlayer1(int size, Point? pointToDraw)
         {
-            PlayTurn(size, pointToDraw, Symbol.X);
+            bool continuePlay = PlayTurn(size, pointToDraw, Symbol.X);
             if (m_game.HasWinner())
             {
                 Console.WriteLine("The winner is player 2 !!!!!");
                 printScores();
+                continuePlay = false;
             }
 
             if (m_game.Board.IsBoardFull())
             {
                 Console.WriteLine("The board is full, No winner :(");
+                continuePlay = false;
             }
+
+            return continuePlay;
         }
 
-        private static void PlayPlayer2(int size, playerType playerType, Point? pointToDraw)
+        private static bool PlayPlayer2(int size, playerType playerType, Point? pointToDraw)
         {
+            bool continuePlay = false;
             if (playerType == ReverseTicTacToe.playerType.User)
             {
-                PlayTurn(size, pointToDraw, Symbol.O);
+                continuePlay = PlayTurn(size, pointToDraw, Symbol.O);
             }
             else
             {
@@ -65,24 +82,33 @@ namespace ReverseTicTacToe
             {
                 Console.WriteLine("The winner is player 1 !!!!!");
                 printScores();
+                continuePlay = false;
             }
 
             if (m_game.Board.IsBoardFull())
             {
                 Console.WriteLine("The board is full, No winner :(");
+                continuePlay = false;
             }
+
+            return continuePlay;
         }
 
-        private static void PlayTurn(int size, Point? pointToDraw, Symbol symbol)
+        private static bool PlayTurn(int size, Point? pointToDraw, Symbol symbol)
         {
-            bool wasSuccess = m_game.PlayTurn(pointToDraw.Value, symbol);
+            bool wasSuccess = m_game.PlayTurn(new Point(pointToDraw.Value.X - 1, pointToDraw.Value.Y - 1), symbol);
             printBoard();
             while (!wasSuccess)
             {
                 Console.WriteLine("The location already chosen, choose another");
                 pointToDraw = getToDrawFromUser(size);
-                wasSuccess = m_game.PlayTurn(pointToDraw.Value, symbol);
+                if (pointToDraw == null)
+                    return false;
+
+                wasSuccess = m_game.PlayTurn(new Point(pointToDraw.Value.X - 1, pointToDraw.Value.Y - 1), symbol);
             }
+
+            return true;
         }
 
         private static int getBoardSize()

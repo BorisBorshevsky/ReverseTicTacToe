@@ -14,6 +14,7 @@ namespace ReverseTicTacToeLogic
 
         public TicTacToe(int size)
         {
+            m_scores = new ScoreBoard();
             m_board = new Board(size);
             m_board.initializeBoard();
         }
