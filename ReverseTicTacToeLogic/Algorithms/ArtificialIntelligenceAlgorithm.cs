@@ -10,7 +10,7 @@ namespace ReverseTicTacToeLogic.Algorithms
         public static Point GetMove(Board i_board, Symbol i_symbol)
         {
             Board dynamicProgrammingBoard = new Board(i_board.Size);
-            Point bestMove;
+            Point bestMove = new Point();
 
             for (int row = 0; row < i_board.Size; row++)
             {
@@ -29,10 +29,9 @@ namespace ReverseTicTacToeLogic.Algorithms
                             goto EndOfLoop;
                         }
                     }
-
-
                 }
             }
+
             EndOfLoop:
             return bestMove;
         }

@@ -27,7 +27,7 @@ namespace ReverseTicTacToe
                 }
                 
                 //player 1
-                bool continuePlay = PlayPlayer(size, playerType.User, Symbol.X, "Player 1", pointToDraw);
+                bool continuePlay = PlayPlayer(size, playerType.User, Symbol.X, "Player 2", pointToDraw);
                 if (continuePlay == false)
                 {
                     Console.WriteLine("Do you want another game?");
@@ -36,7 +36,7 @@ namespace ReverseTicTacToe
                 }
 
                 //player 2
-                continuePlay = PlayPlayer(size, playerType, Symbol.O, "Player 2", pointToDraw);
+                continuePlay = PlayPlayer(size, playerType, Symbol.O, "Player 1", pointToDraw);
                 if (continuePlay == false)
                 {
                     m_game.Restart();
@@ -47,7 +47,7 @@ namespace ReverseTicTacToe
             Console.Read();
         }
 
-        private static bool PlayPlayer(int boardSize, playerType playerType, Symbol symbol, string playerName, Point? pointToDraw)
+        private static bool PlayPlayer(int boardSize, playerType playerType, Symbol symbol, string opponentPlayerName, Point? pointToDraw)
         {
             bool continuePlay = false;
             if (playerType == ReverseTicTacToe.playerType.User)
@@ -59,9 +59,9 @@ namespace ReverseTicTacToe
                 m_game.PlayTurn(symbol);
             }
 
-            if (m_game.HasWinner())
+            if (m_game.Board.HasWinner())
             {
-                Console.WriteLine(String.Format("The winner is {0} !!!!!", playerName));
+                Console.WriteLine(String.Format("The winner is {0} !!!!!", opponentPlayerName));
                 printScores();
                 Console.WriteLine("Press any key to continue");
                 Console.ReadKey();
