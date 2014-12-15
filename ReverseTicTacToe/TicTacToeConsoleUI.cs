@@ -12,91 +12,97 @@ namespace ReverseTicTacToe
         
         public static void Start()
         {
-            int size = getBoardSize();
-            m_game = new TicTacToe(size);
-            playerType playerType = getOpponentType();
+            int boardSize = getBoardSize();
+            m_game = new TicTacToe(boardSize);
+            playerType opponentPlayerType = getOpponentType();
+            bool player1ShouldPlay = true;
 
             while(true)
             {
+
                 printBoard();
-                Point? pointToDraw = getToDrawFromUser(size);
-                if (pointToDraw == null)
+
+                if (opponentPlayerType == playerType.User || player1ShouldPlay)
                 {
-                    m_game.Restart();
-                    continue;
+                    Point? pointToDraw = getPointToDrawFromUser(boardSize);
+                    if (pointToDraw == null)
+                    {
+                        m_game.Restart();
+                        continue;
+                    }
+                    bool stopGame;
+                    if (player1ShouldPlay)
+                    {
+                        doUserTurn(boardSize, pointToDraw, Symbol.X, out stopGame);
+                        CheckBoard("Player2", out stopGame);
+                    }
+                    else
+                    {
+                        doUserTurn(boardSize, pointToDraw, Symbol.O, out stopGame);
+                        CheckBoard("Player1", out stopGame);
+                    }
+
+                    if (stopGame)
+                    {
+                        Console.WriteLine("Press 'Q' to exit or any other key to continue");
+                        ConsoleKeyInfo userInput = Console.ReadKey();
+                        if (userInput.Key == ConsoleKey.Q)
+                        {
+                            break;
+                        }
+                        m_game.Restart();
+                        continue;
+                    }
                 }
+                else
+                {
+                    m_game.PlayTurn(Symbol.O);
+                }
+
+                player1ShouldPlay = !player1ShouldPlay;
                 
-                //player 1
-                bool continuePlay = PlayPlayer(size, playerType.User, Symbol.X, "Player 2", pointToDraw);
-                if (continuePlay == false)
-                {
-                    Console.WriteLine("Do you want another game?");
-                    m_game.Restart();
-                    continue;
-                }
-
-                //player 2
-                continuePlay = PlayPlayer(size, playerType, Symbol.O, "Player 1", pointToDraw);
-                if (continuePlay == false)
-                {
-                    m_game.Restart();
-                    continue;
-                }
             }
-
+            Console.Clear();
+            Console.WriteLine("Bye Bye");
+            printScores();
             Console.Read();
         }
 
-        private static bool PlayPlayer(int boardSize, playerType playerType, Symbol symbol, string opponentPlayerName, Point? pointToDraw)
+        private static void CheckBoard(string opponentPlayerName, out bool stopGame)
         {
-            bool continuePlay = false;
-            if (playerType == ReverseTicTacToe.playerType.User)
-            {
-                continuePlay = playTurn(boardSize, pointToDraw, symbol);
-            }
-            else
-            {
-                m_game.PlayTurn(symbol);
-            }
-
+            stopGame = false;
             if (m_game.Board.HasWinner())
             {
                 Console.WriteLine(String.Format("The winner is {0} !!!!!", opponentPlayerName));
+                stopGame = true;
                 printScores();
-                Console.WriteLine("Press any key to continue");
-                Console.ReadKey();
-                continuePlay = false;
             }
             else
             {
                 if (m_game.Board.IsBoardFull())
                 {
                     Console.WriteLine("The board is full, No winner :(");
+                    stopGame = true;
                     printScores();
-                    Console.WriteLine("Press any key to continue");
-                    Console.ReadKey();
-                    continuePlay = false;
                 }
             }
-
-            return continuePlay;
         }
 
-        private static bool playTurn(int size, Point? pointToDraw, Symbol symbol)
+        private static void doUserTurn(int boardSize, Point? pointToDraw, Symbol symbol, out bool stopGame)
         {
             bool wasSuccess = m_game.PlayTurn(new Point(pointToDraw.Value.X - 1, pointToDraw.Value.Y - 1), symbol);
             printBoard();
             while (!wasSuccess)
             {
                 Console.WriteLine("The location already chosen, choose another");
-                pointToDraw = getToDrawFromUser(size);
+                pointToDraw = getPointToDrawFromUser(boardSize);
                 if (pointToDraw == null)
-                    return false;
+                    stopGame = true;
 
                 wasSuccess = m_game.PlayTurn(new Point(pointToDraw.Value.X - 1, pointToDraw.Value.Y - 1), symbol);
             }
 
-            return true;
+            stopGame = false;
         }
 
         private static int getBoardSize()
@@ -188,7 +194,7 @@ namespace ReverseTicTacToe
                 m_game.GetScores().Player2));
         }
 
-        private static Point? getToDrawFromUser(int boardSize)
+        private static Point? getPointToDrawFromUser(int boardSize)
         {
             Console.WriteLine(String.Format("Enter row number to draw (1-{0})", boardSize));
             ConsoleKeyInfo rowInput = Console.ReadKey();
