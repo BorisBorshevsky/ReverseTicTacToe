@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace ReverseTicTacToeLogic
 {
     public class Board
     {
-        private eSymbol[,] m_board;
+        private readonly eSymbol[,] m_board;
 
         public int Size {
             get { return m_board.GetLength(0); } 

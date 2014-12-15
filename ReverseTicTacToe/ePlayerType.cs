@@ -1,6 +1,6 @@
 ﻿namespace ReverseTicTacToe
 {
-    public enum playerType
+    public enum ePlayerType
     {
         User = 1,
         Computer = 2

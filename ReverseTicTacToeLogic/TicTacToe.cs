@@ -7,26 +7,26 @@ namespace ReverseTicTacToeLogic
 {
     public class TicTacToe
     {
-        private Board m_board;
-        private ScoreBoard m_scores;
+        private readonly Board m_board;
+        private readonly ScoreBoard m_scoreBoard;
 
         public Board Board { get { return m_board; }}
 
         public TicTacToe(int size)
         {
-            m_scores = new ScoreBoard();
+            m_scoreBoard = new ScoreBoard();
             m_board = new Board(size);
             m_board.InitializeBoard();
         }
 
-        public bool PlayTurn(eSymbol i_PlayersSymbol, eSymbol i_OpponentSymbol)
+        public bool TryPlayTurn(eSymbol i_PlayersSymbol, eSymbol i_OpponentSymbol)
         {
             Point computerMove = Algorithms.ArtificialIntelligenceAlgorithm.GetMove(Board, i_PlayersSymbol, i_OpponentSymbol);
             
-            return PlayTurn(computerMove, i_PlayersSymbol);
+            return TryPlayTurn(computerMove, i_PlayersSymbol);
         }
 
-        public bool PlayTurn(Point i_coordinates, eSymbol i_PlayersSymbol)
+        public bool TryPlayTurn(Point i_coordinates, eSymbol i_PlayersSymbol)
         {
             bool isPlayedSucceded = true;
             
@@ -43,11 +43,11 @@ namespace ReverseTicTacToeLogic
             {
                 if (i_PlayersSymbol == eSymbol.X)
                 {
-                    m_scores.AddWinToPlayer2();
+                    m_scoreBoard.AddWinToPlayer2();
                 }
                 else
                 {
-                    m_scores.AddWinToPlayer1();
+                    m_scoreBoard.AddWinToPlayer1();
                 }
             }
 
@@ -57,18 +57,18 @@ namespace ReverseTicTacToeLogic
 
         public ScoreBoard.Scores GetScores()
         {
-            return m_scores.GetScores();
+            return m_scoreBoard.GetScores();
         }
 
         public void Surrender(eSymbol i_PlayersSymbol)
         {
             if (i_PlayersSymbol == eSymbol.X)
             {
-                m_scores.AddWinToPlayer2();
+                m_scoreBoard.AddWinToPlayer2();
             }
             else
             {
-                m_scores.AddWinToPlayer1();
+                m_scoreBoard.AddWinToPlayer1();
             }
         }
 

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ReverseTicTacToeLogic;
-
-namespace ReverseTicTacToe
+﻿namespace ReverseTicTacToe
 {
     class Program
     {
         public static void Main()
         {
-            TicTacToeConsoleUI.Start();
+            TicTacToeConsoleUi.Start();
         }
     
     }

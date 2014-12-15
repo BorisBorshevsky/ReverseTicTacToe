@@ -32,9 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="PlayerType.cs" />
+    <Compile Include="ePlayerType.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="TicTacToeConsoleUI.cs" />
+    <Compile Include="TicTacToeConsoleUi.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Ex02.ConsoleUtils">

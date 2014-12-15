@@ -1,107 +1,149 @@
 ﻿using ReverseTicTacToeLogic;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
 namespace ReverseTicTacToe
 {
-    static class TicTacToeConsoleUI
+    static class TicTacToeConsoleUi
     {
-        private static TicTacToe m_game;
+        private static TicTacToe s_gameLogic;
         
         public static void Start()
         {
             int boardSize = getBoardSize();
-            m_game = new TicTacToe(boardSize);
-            playerType opponentPlayerType = getOpponentType();
+            s_gameLogic = new TicTacToe(boardSize);
+            ePlayerType opponentPlayerType = getOpponentType();
             bool player1ShouldPlay = true;
 
             while(true)
             {
-
                 printBoard();
-
-                if (opponentPlayerType == playerType.User || player1ShouldPlay)
+                
+                //player one or human opponent
+                if (opponentPlayerType == ePlayerType.User || player1ShouldPlay)
                 {
-                    Point? pointToDraw = getPointToDrawFromUser(boardSize);
-                    if (pointToDraw == null)
+                    bool stopGame = false;
+                    Point? pointToDraw;
+                    
+                /*    if (getCoordianteFromUser(boardSize, out pointToDraw) == false)
                     {
-                        m_game.Restart();
-                        continue;
-                    }
-                    bool stopGame;
-                    if (player1ShouldPlay)
+                        s_gameLogic.Surrender(player1ShouldPlay? eSymbol.X : eSymbol.O);
+                        stopGame = true;
+                    }*/
+
+                    if (!stopGame && player1ShouldPlay) //player1
                     {
                         doUserTurn(boardSize, pointToDraw, eSymbol.X, out stopGame);
-                        CheckBoard("Player2", out stopGame);
+                        stopGame = isGameEnded(eSymbol.X);
+                        PrintWinner(eSymbol.X);
                     }
-                    else
+                    else if (!stopGame && !player1ShouldPlay) //player2
                     {
                         doUserTurn(boardSize, pointToDraw, eSymbol.O, out stopGame);
-                        CheckBoard("Player1", out stopGame);
-                    }
-
+                        stopGame = isGameEnded(eSymbol.O);
+                        PrintWinner(eSymbol.O);
+                    } 
+                    
                     if (stopGame)
                     {
-                        Console.WriteLine("Press 'Q' to exit or any other key to continue");
-                        ConsoleKeyInfo userInput = Console.ReadKey();
-                        if (userInput.Key == ConsoleKey.Q)
-                        {
-                            break;
-                        }
-                        m_game.Restart();
-                        continue;
+                        displayEndGame();
                     }
                 }
-
-                else
+                else //if computer plays (player2)
                 {
-                    m_game.PlayTurn(eSymbol.O, eSymbol.X);
+                    s_gameLogic.TryPlayTurn(eSymbol.O, eSymbol.X);
                 }
+                
                 player1ShouldPlay = !player1ShouldPlay;
             }
-            Console.Clear();
-            Console.WriteLine("Bye Bye");
+
+            
+        }
+
+        private static void displayEndGame()
+        {
+            
             printScores();
-            Console.Read();
-        }
 
-        private static void CheckBoard(string opponentPlayerName, out bool stopGame)
-        {
-            stopGame = false;
-            if (m_game.Board.HasWinner())
-            {
-                Console.WriteLine(String.Format("The winner is {0} !!!!!", opponentPlayerName));
-                stopGame = true;
-                printScores();
-            }
-            else
-            {
-                if (m_game.Board.IsBoardFull())
+            Console.WriteLine("Do you want to keep playing? (1 = yes, 2 = no)");
+            ConsoleKeyInfo userInput = Console.ReadKey();
+            while (true) { 
+                if (userInput.Key == ConsoleKey.D1)
                 {
-                    Console.WriteLine("The board is full, No winner :(");
-                    stopGame = true;
-                    printScores();
+                    s_gameLogic.Restart();
+                    break;
                 }
+                else if (userInput.Key == ConsoleKey.D2)
+                {
+                    Console.WriteLine("Bye Bye");
+                    Console.Read();
+                    break;
+                }
+                Console.WriteLine("invalid input");
+                userInput = Console.ReadKey();
             }
+            
         }
 
-        private static void doUserTurn(int boardSize, Point? pointToDraw, eSymbol symbol, out bool stopGame)
+        private static bool isGameEnded(eSymbol i_PlayingSymbol)
         {
-            bool wasSuccess = m_game.PlayTurn(new Point(pointToDraw.Value.X - 1, pointToDraw.Value.Y - 1), symbol);
-            printBoard();
-            while (!wasSuccess)
+            bool isGameEnded = false;
+            
+            if (s_gameLogic.Board.HasWinner() || s_gameLogic.Board.IsBoardFull())
+            {
+                isGameEnded = true;
+            }
+            
+            return isGameEnded;
+        }
+
+        private static void PrintWinner(eSymbol i_PlayingSymbol)
+        {
+            if (s_gameLogic.Board.HasWinner())
+            {
+                Console.WriteLine("The winner is {0} !!!!!", i_PlayingSymbol == eSymbol.X ? "Player1" : "Player2");
+            }
+            else if (s_gameLogic.Board.IsBoardFull())
+            {
+                Console.WriteLine("The board is full, No winner :(");
+            }
+            printScores();
+
+        }
+
+
+
+        private static void doUserTurn(int i_BoardSize, eSymbol i_Symbol, out bool io_StopGame)
+        {
+
+            Point? cordinatesToPlay;
+            getCoordianteFromUser(i_BoardSize, out cordinatesToPlay,out io_StopGame);
+
+            /*if (getCoordianteFromUser(boardSize, out pointToDraw, io_StopGame)
+            {
+                s_gameLogic.Surrender(player1ShouldPlay ? eSymbol.X : eSymbol.O);
+                stopGame = true;
+            }*/
+            
+            
+         //   Point cordinatesToPlay = new Point(i_PointToDraw.Value.X - 1, i_PointToDraw.Value.Y - 1);
+            
+            bool isSuccess = s_gameLogic.TryPlayTurn(cordinatesToPlay, i_Symbol);
+            
+            while (!isSuccess)
             {
                 Console.WriteLine("The location already chosen, choose another");
-                pointToDraw = getPointToDrawFromUser(boardSize);
-                if (pointToDraw == null)
-                    stopGame = true;
+                if (getCoordianteFromUser(i_BoardSize, out i_PointToDraw) == false)
+                {
+                    io_StopGame = true;
+                    return;
+                }
 
-                wasSuccess = m_game.PlayTurn(new Point(pointToDraw.Value.X - 1, pointToDraw.Value.Y - 1), symbol);
+                isSuccess = s_gameLogic.TryPlayTurn(new Point(i_PointToDraw.Value.X - 1, i_PointToDraw.Value.Y - 1), i_Symbol);
             }
 
-            stopGame = false;
+            io_StopGame = false;
         }
 
         private static int getBoardSize()
@@ -119,7 +161,7 @@ namespace ReverseTicTacToe
             return (int)Char.GetNumericValue(input);
         }
 
-        private static playerType getOpponentType()
+        private static ePlayerType getOpponentType()
         {
             Console.Clear();
             Console.WriteLine("Enter player type (1 = human, 2 = PC)");
@@ -131,13 +173,13 @@ namespace ReverseTicTacToe
                 input = Console.ReadKey().KeyChar;
             }
 
-            return (playerType)Char.GetNumericValue(input);
+            return (ePlayerType)Char.GetNumericValue(input);
         }
 
         private static void printBoard()
         {
             Console.Clear();
-            eSymbol[,] board = m_game.Board.GetData();
+            eSymbol[,] board = s_gameLogic.Board.GetData();
             int rowLength = board.GetLength(0);
             int colLength = board.GetLength(1);
             StringBuilder boardToDraw = new StringBuilder();
@@ -188,36 +230,84 @@ namespace ReverseTicTacToe
         private static void printScores()
         {
             Console.WriteLine(String.Format("Player1: {0}, {1}Player2: {2}", 
-                m_game.GetScores().Player1, 
+                s_gameLogic.GetScores().Player1, 
                 Environment.NewLine,
-                m_game.GetScores().Player2));
+                s_gameLogic.GetScores().Player2));
         }
 
-        private static Point? getPointToDrawFromUser(int boardSize)
+
+
+
+        private static ConsoleKeyInfo getValidConsoleKeyInfo(int i_BoardSize)
         {
-            Console.WriteLine(String.Format("Enter row number to draw (1-{0})", boardSize));
+            ConsoleKeyInfo input = Console.ReadKey();
+            Console.WriteLine();
+            while (true)
+            {
+                if (input.Key == ConsoleKey.Q ||((int)Char.GetNumericValue(input.KeyChar) >= 1 || (int)Char.GetNumericValue(input.KeyChar) <= i_BoardSize))
+                {
+                    return input;
+                }
+                else
+                {
+                    Console.WriteLine("invalid Input. Try again");
+                }
+                
+                input = Console.ReadKey();
+                Console.WriteLine();
+            }
+        }
+        private static void getCoordianteFromUser(int i_BoardSize, out Point io_PointToDraw, out bool isGameEnded)
+        {
+            isGameEnded = true;
+            io_PointToDraw = default(Point);
+
+            Console.WriteLine(String.Format("Enter row number to draw (1-{0}) , Press 'Q' to Surrender.", i_BoardSize));
+            ConsoleKeyInfo rowInfo = getValidConsoleKeyInfo(i_BoardSize);
+            if (!(rowInfo.Key == ConsoleKey.Q))
+            {
+                Console.WriteLine(String.Format("Enter column number to draw (1-{0}) , Press 'Q' to Surrender.", i_BoardSize));
+                ConsoleKeyInfo columnInfo = getValidConsoleKeyInfo(i_BoardSize);
+
+
+                if (!(columnInfo.Key == ConsoleKey.Q))
+                {
+                    isGameEnded = false;
+                    int row = ((int) Char.GetNumericValue(rowInfo.KeyChar));
+                    int column = ((int)Char.GetNumericValue(columnInfo.KeyChar));
+                    io_PointToDraw = new Point(row, column);
+                }
+            }
+
+        }
+        /*
+        private static bool tryGetPointToDrawFromUser(int i_BoardSize, out Point io_PointToDraw)
+        {
+            Console.WriteLine(String.Format("Enter row number to draw (1-{0}) , Press 'Q' to Surrender.", i_BoardSize));
             ConsoleKeyInfo rowInput = Console.ReadKey();
+            bool shouldQuit = false;
+
             while (!Char.IsNumber(rowInput.KeyChar) ||
-                ((int)Char.GetNumericValue(rowInput.KeyChar) < 1 || (int)Char.GetNumericValue(rowInput.KeyChar) > boardSize))
+                ((int)Char.GetNumericValue(rowInput.KeyChar) < 1 || (int)Char.GetNumericValue(rowInput.KeyChar) > i_BoardSize))
             {
                 if (rowInput.Key == ConsoleKey.Q)
                 {
+                    shouldQuit = true;
                     break;
                 }
 
                 printBoard();
-                Console.WriteLine(String.Format("Invalid input, Enter row number to draw (1-{0})", boardSize));
+                Console.WriteLine(String.Format("Invalid input, Enter row number to draw (1-{0})", i_BoardSize));
                 rowInput = Console.ReadKey();
             }
 
-            Point? pointToDraw = null;
-            Console.WriteLine(String.Format("Enter column number to draw (1-{0})", boardSize));
+            Console.WriteLine(String.Format("Enter column number to draw (1-{0})", i_BoardSize));
             if (rowInput.Key != ConsoleKey.Q)
             {
-                Console.WriteLine(String.Format("Enter column to draw (1-{0})", boardSize));
+                Console.WriteLine(String.Format("Enter column to draw (1-{0})", i_BoardSize));
                 ConsoleKeyInfo colInput = Console.ReadKey();
                 while (!Char.IsNumber(colInput.KeyChar) ||
-                    ((int)Char.GetNumericValue(colInput.KeyChar) < 1 || (int)Char.GetNumericValue(colInput.KeyChar) > boardSize))
+                    ((int)Char.GetNumericValue(colInput.KeyChar) < 1 || (int)Char.GetNumericValue(colInput.KeyChar) > i_BoardSize))
                 {
                     if (colInput.Key == ConsoleKey.Q)
                     {
@@ -225,18 +315,16 @@ namespace ReverseTicTacToe
                     }
 
                     printBoard();
-                    Console.WriteLine(String.Format("Invalid input, Enter column number to draw (1-{0})", boardSize));
+                    Console.WriteLine(String.Format("Invalid input, Enter column number to draw (1-{0})", i_BoardSize));
                     colInput = Console.ReadKey();
                 }
 
                 if (rowInput.Key != ConsoleKey.Q)
                 {
-                    pointToDraw = new Point((int)Char.GetNumericValue(rowInput.KeyChar), (int)Char.GetNumericValue(colInput.KeyChar));
+                    io_PointToDraw = new Point((int)Char.GetNumericValue(rowInput.KeyChar), (int)Char.GetNumericValue(colInput.KeyChar));
                 }
             }
-
-            return pointToDraw;
-        }
+        }*/
 
         private static void printWinner()
         {
@@ -244,8 +332,8 @@ namespace ReverseTicTacToe
             scoresBoardToDraw.AppendLine();
             scoresBoardToDraw.Append("****Score Board****");
             scoresBoardToDraw.AppendLine();
-            scoresBoardToDraw.AppendLine(String.Format("   Player1: {0}", m_game.GetScores().Player1));
-            scoresBoardToDraw.AppendLine(String.Format("   Player2: {0}", m_game.GetScores().Player2));
+            scoresBoardToDraw.AppendLine(String.Format("   Player1: {0}", s_gameLogic.GetScores().Player1));
+            scoresBoardToDraw.AppendLine(String.Format("   Player2: {0}", s_gameLogic.GetScores().Player2));
             scoresBoardToDraw.AppendLine();
 
             Console.WriteLine(scoresBoardToDraw);

@@ -7,26 +7,26 @@ namespace ReverseTicTacToeLogic.Algorithms
 {
     static class ArtificialIntelligenceAlgorithm
     {
-        public static Point GetMove(Board i_board, eSymbol i_currentUserSymbol, eSymbol i_opponnentSymbol)
+        public static Point GetMove(Board i_Board, eSymbol i_CurrentUserSymbol, eSymbol i_OpponentSymbol)
         {
-            Board dynamicProgrammingBoard = new Board(i_board.Size);
+            Board dynamicProgrammingBoard = new Board(i_Board.Size);
             List<Point> availableMoves = new List<Point>();
             List<Point> goodMoves = new List<Point>();
             List<Point> bestMoves = new List<Point>();
             Point calculatedBestMove;
 
-            for (int row = 0; row < i_board.Size; row++)
+            for (int row = 0; row < i_Board.Size; row++)
             {
-                for (int column = 0; column < i_board.Size; column++)
+                for (int column = 0; column < i_Board.Size; column++)
                 {
                     Point currentMove = new Point(row, column);
-                    if (i_board.IsValidMove(currentMove))
+                    if (i_Board.IsValidMove(currentMove))
                     {
                         availableMoves.Add(currentMove);
-                        if (!checkIfMoveEndsTheGame(i_board, currentMove, i_currentUserSymbol))
+                        if (!checkIfMoveEndsTheGame(i_Board, currentMove, i_CurrentUserSymbol))
                         {
                             goodMoves.Add(currentMove);
-                            if (!checkIfMoveEndsTheGame(i_board, currentMove, i_opponnentSymbol))
+                            if (!checkIfMoveEndsTheGame(i_Board, currentMove, i_OpponentSymbol))
                             {
                                 bestMoves.Add(currentMove);
                             }
@@ -55,19 +55,19 @@ namespace ReverseTicTacToeLogic.Algorithms
             return calculatedBestMove;
         }
 
-        private static bool checkIfMoveEndsTheGame(Board i_board, Point i_coordinates, eSymbol i_symbolToCheck)
+        private static bool checkIfMoveEndsTheGame(Board i_Board, Point i_Coordinates, eSymbol i_SymbolToCheck)
         {
             bool isMoveEndsTheGame = false;
             
-            if (i_board.IsValidMove(i_coordinates))
+            if (i_Board.IsValidMove(i_Coordinates))
             {
-                i_board.SetSymbol(i_symbolToCheck, i_coordinates);
-                if (i_board.HasWinner())
+                i_Board.SetSymbol(i_SymbolToCheck, i_Coordinates);
+                if (i_Board.HasWinner())
                 {
                     isMoveEndsTheGame = true;
                 }
                 
-                i_board.SetSymbol(eSymbol.Blank, i_coordinates);
+                i_Board.SetSymbol(eSymbol.Blank, i_Coordinates);
             }
 
             return isMoveEndsTheGame;
