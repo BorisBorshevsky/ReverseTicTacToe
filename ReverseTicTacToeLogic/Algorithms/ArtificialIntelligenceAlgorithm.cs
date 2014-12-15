@@ -72,12 +72,5 @@ namespace ReverseTicTacToeLogic.Algorithms
 
             return isMoveEndsTheGame;
         }
-
-        private static T getRandomObjectFromList<T>(List<T> list){
-            return list[0];
-
-        } 
-
-
     }
 }

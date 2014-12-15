@@ -16,12 +16,12 @@ namespace ReverseTicTacToeLogic
         {
             m_scores = new ScoreBoard();
             m_board = new Board(size);
-            m_board.initializeBoard();
+            m_board.InitializeBoard();
         }
 
-        public bool PlayTurn(eSymbol i_PlayersSymbol, eSymbol i_opponentSymbol)
+        public bool PlayTurn(eSymbol i_PlayersSymbol, eSymbol i_OpponentSymbol)
         {
-            Point computerMove = Algorithms.ArtificialIntelligenceAlgorithm.GetMove(Board, i_PlayersSymbol, i_opponentSymbol);
+            Point computerMove = Algorithms.ArtificialIntelligenceAlgorithm.GetMove(Board, i_PlayersSymbol, i_OpponentSymbol);
             
             return PlayTurn(computerMove, i_PlayersSymbol);
         }
@@ -72,10 +72,9 @@ namespace ReverseTicTacToeLogic
             }
         }
 
-
         public void Restart()
         {
-            Board.initializeBoard();
+            Board.InitializeBoard();
         }
 
     }

@@ -1,6 +1,5 @@
 ﻿namespace ReverseTicTacToeLogic
 {
-
     public enum eSymbol
     {
         Blank,
