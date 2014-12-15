@@ -27,7 +27,7 @@ namespace ReverseTicTacToe
                 }
                 
                 //player 1
-                bool continuePlay = PlayPlayer(size, playerType.User, Symbol.X, "Player 2", pointToDraw);
+                bool continuePlay = PlayPlayer(size, playerType.User, eSymbol.X, "Player 2", pointToDraw);
                 if (continuePlay == false)
                 {
                     Console.WriteLine("Do you want another game?");
@@ -36,7 +36,7 @@ namespace ReverseTicTacToe
                 }
 
                 //player 2
-                continuePlay = PlayPlayer(size, playerType, Symbol.O, "Player 1", pointToDraw);
+                continuePlay = PlayPlayer(size, playerType, eSymbol.O, "Player 1", pointToDraw);
                 if (continuePlay == false)
                 {
                     m_game.Restart();
@@ -47,7 +47,7 @@ namespace ReverseTicTacToe
             Console.Read();
         }
 
-        private static bool PlayPlayer(int boardSize, playerType playerType, Symbol symbol, string opponentPlayerName, Point? pointToDraw)
+        private static bool PlayPlayer(int boardSize, playerType playerType, eSymbol symbol, string opponentPlayerName, Point? pointToDraw)
         {
             bool continuePlay = false;
             if (playerType == ReverseTicTacToe.playerType.User)
@@ -82,7 +82,7 @@ namespace ReverseTicTacToe
             return continuePlay;
         }
 
-        private static bool playTurn(int size, Point? pointToDraw, Symbol symbol)
+        private static bool playTurn(int size, Point? pointToDraw, eSymbol symbol)
         {
             bool wasSuccess = m_game.PlayTurn(new Point(pointToDraw.Value.X - 1, pointToDraw.Value.Y - 1), symbol);
             printBoard();
@@ -132,7 +132,7 @@ namespace ReverseTicTacToe
         private static void printBoard()
         {
             Console.Clear();
-            Symbol[,] board = m_game.Board.GetData();
+            eSymbol[,] board = m_game.Board.GetData();
             int rowLength = board.GetLength(0);
             int colLength = board.GetLength(1);
             StringBuilder boardToDraw = new StringBuilder();
@@ -151,13 +151,13 @@ namespace ReverseTicTacToe
                 {
                     switch (board[row, col])
                     {
-                        case Symbol.Blank:
+                        case eSymbol.Blank:
                             boardToDraw.Append("   ");
                             break;
-                        case Symbol.X:
+                        case eSymbol.X:
                             boardToDraw.Append(" X ");
                             break;
-                        case Symbol.O:
+                        case eSymbol.O:
                             boardToDraw.Append(" O ");
                             break;
                         default:

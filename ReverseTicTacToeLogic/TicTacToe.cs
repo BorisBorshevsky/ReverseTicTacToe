@@ -19,14 +19,14 @@ namespace ReverseTicTacToeLogic
             m_board.initializeBoard();
         }
 
-        public bool PlayTurn(Symbol i_PlayersSymbol)
+        public bool PlayTurn(eSymbol i_PlayersSymbol, eSymbol i_opponentSymbol)
         {
-            Point computerMove = Algorithms.ArtificialIntelligenceAlgorithm.GetMove(Board, i_PlayersSymbol);
+            Point computerMove = Algorithms.ArtificialIntelligenceAlgorithm.GetMove(Board, i_PlayersSymbol, i_opponentSymbol);
             
             return PlayTurn(computerMove, i_PlayersSymbol);
         }
 
-        public bool PlayTurn(Point i_coordinates, Symbol i_PlayersSymbol)
+        public bool PlayTurn(Point i_coordinates, eSymbol i_PlayersSymbol)
         {
             bool isPlayedSucceded = true;
             
@@ -41,7 +41,7 @@ namespace ReverseTicTacToeLogic
 
             if (Board.HasWinner())
             {
-                if (i_PlayersSymbol == Symbol.X)
+                if (i_PlayersSymbol == eSymbol.X)
                 {
                     m_scores.AddWinToPlayer2();
                 }
@@ -60,9 +60,9 @@ namespace ReverseTicTacToeLogic
             return m_scores.GetScores();
         }
 
-        public void Surrender(Symbol i_PlayersSymbol)
+        public void Surrender(eSymbol i_PlayersSymbol)
         {
-            if (i_PlayersSymbol == Symbol.X)
+            if (i_PlayersSymbol == eSymbol.X)
             {
                 m_scores.AddWinToPlayer2();
             }
