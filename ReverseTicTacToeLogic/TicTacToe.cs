@@ -21,9 +21,8 @@ namespace ReverseTicTacToeLogic
 
         public bool PlayTurn(Symbol i_PlayersSymbol)
         {
-            bool isPlayedSucceded = true;
             Point computerMove = Algorithms.ArtificialIntelligenceAlgorithm.GetMove(Board, i_PlayersSymbol);
-
+            
             return PlayTurn(computerMove, i_PlayersSymbol);
         }
 
@@ -56,9 +55,6 @@ namespace ReverseTicTacToeLogic
         }
 
 
-
-
-
         public ScoreBoard.Scores GetScores()
         {
             return m_scores.GetScores();
@@ -74,7 +70,6 @@ namespace ReverseTicTacToeLogic
             {
                 m_scores.AddWinToPlayer1();
             }
-            
         }
 
 
@@ -83,6 +78,5 @@ namespace ReverseTicTacToeLogic
             Board.initializeBoard();
         }
 
-        public bool isStreightLineAchieved { get; set; }
     }
 }

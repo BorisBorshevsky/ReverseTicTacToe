@@ -27,7 +27,7 @@ namespace ReverseTicTacToeLogic
             {
                 for (int column = 0; column < m_board.GetLength(1); column++)
                 {
-                    m_board[row, column] = Symbol.Blank;
+                    SetSymbol(Symbol.Blank, new Point(row, column));
                 }
             }
         }
@@ -168,8 +168,5 @@ namespace ReverseTicTacToeLogic
 
             return isStreightLine;
         }
-
-
-
     }
 }

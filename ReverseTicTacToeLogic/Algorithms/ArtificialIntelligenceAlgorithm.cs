@@ -26,6 +26,7 @@ namespace ReverseTicTacToeLogic.Algorithms
                         }
                         else 
                         {
+                            i_board.SetSymbol(Symbol.Blank, bestMove);
                             goto EndOfLoop;
                         }
                     }
