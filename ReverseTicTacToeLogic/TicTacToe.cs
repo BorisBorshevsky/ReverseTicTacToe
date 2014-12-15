@@ -21,7 +21,10 @@ namespace ReverseTicTacToeLogic
 
         public bool PlayTurn(Symbol i_PlayersSymbol)
         {
-            return false;
+            bool isPlayedSucceded = true;
+            Point computerMove = Algorithms.ArtificialIntelligenceAlgorithm.GetMove(Board, i_PlayersSymbol);
+
+            return PlayTurn(computerMove, i_PlayersSymbol);
         }
 
         public bool PlayTurn(Point i_coordinates, Symbol i_PlayersSymbol)
@@ -37,7 +40,7 @@ namespace ReverseTicTacToeLogic
                 Board.SetSymbol(i_PlayersSymbol, i_coordinates);
             }
 
-            if (HasWinner())
+            if (Board.HasWinner())
             {
                 if (i_PlayersSymbol == Symbol.X)
                 {
@@ -52,92 +55,7 @@ namespace ReverseTicTacToeLogic
             return isPlayedSucceded;
         }
 
-        public bool HasWinner()
-        {
-            bool isStreightLineAchieved = false;
-            
-            for (int index = 0; index < Board.Size; index++)
-            {
-                if (isRowStreightLine(index) || isColumnStrightLine(index))
-                {
-                    isStreightLineAchieved = true;
-                    break;
-                }    
-            }
 
-            if (isAntiDiagonalStreightLine() || isDiagonalStreightLine())
-            {
-                isStreightLineAchieved = true;
-            }
-
-            return isStreightLineAchieved;
-        }
-
-        private bool isColumnStrightLine(int i_column)
-        {
-            bool isStreightLine = true;
-
-            Symbol symbolToTest = Board.GetSymbol(0, i_column);
-            for (int row = 0; row < Board.Size; row++)
-            {
-                if (Board.GetSymbol(row, i_column) != symbolToTest || Board.GetSymbol(row, i_column) == Symbol.Blank)
-                {
-                    isStreightLine = false;
-                    break;
-                }
-            }
-            
-            return isStreightLine;
-
-        }
-        private bool isRowStreightLine(int i_row)
-        {
-            bool isStreightLine = true;
-
-            Symbol symbolToTest = Board.GetSymbol(i_row, 0);
-            for (int column = 0; column < Board.Size; column++)
-            {
-                if (Board.GetSymbol(i_row, column) != symbolToTest || Board.GetSymbol(i_row, column) == Symbol.Blank)
-                {
-                    isStreightLine = false;
-                    break;
-                }
-            }
-            
-            return isStreightLine;
-        }
-        private bool isDiagonalStreightLine()
-        {
-            bool isStreightLine = true;
-
-            Symbol symbolToTest = Board.GetSymbol(0, 0);
-            for (int row = 0; row < Board.Size; row++)
-            {
-                if (Board.GetSymbol(row, row) != symbolToTest || Board.GetSymbol(row, row) == Symbol.Blank)
-                {
-                    isStreightLine = false;
-                    break;
-                }
-            }
-
-            return isStreightLine;
-        }
-        private bool isAntiDiagonalStreightLine()
-        {
-            bool isStreightLine = true;
-
-            Symbol symbolToTest = Board.GetSymbol(0, 0);
-            for (int row = 0; row < Board.Size; row++)
-            {
-                if (Board.GetSymbol(row, Board.Size - 1 - row) != symbolToTest || Board.GetSymbol(row, Board.Size - 1 - row) == Symbol.Blank)
-                {
-                    isStreightLine = false;
-                    break;
-                }
-            }
-
-            return isStreightLine;
-        }
 
 
 

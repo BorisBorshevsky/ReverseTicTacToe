@@ -51,6 +51,27 @@ namespace ReverseTicTacToeLogic
             return isBoardFull;
         }
 
+        public bool HasWinner()
+        {
+            bool isStreightLineAchieved = false;
+
+            for (int index = 0; index < Size; index++)
+            {
+                if (isRowStreightLine(index) || isColumnStrightLine(index))
+                {
+                    isStreightLineAchieved = true;
+                    break;
+                }
+            }
+
+            if (isAntiDiagonalStreightLine() || isDiagonalStreightLine())
+            {
+                isStreightLineAchieved = true;
+            }
+
+            return isStreightLineAchieved;
+        }
+
 
         public bool IsValidMove(Point i_coordinates)
         {
@@ -80,6 +101,74 @@ namespace ReverseTicTacToeLogic
         {
             return m_board[i_row, i_column];
         }
+
+
+        private bool isColumnStrightLine(int i_column)
+        {
+            bool isStreightLine = true;
+
+            Symbol symbolToTest = GetSymbol(0, i_column);
+            for (int row = 0; row < Size; row++)
+            {
+                if (GetSymbol(row, i_column) != symbolToTest || GetSymbol(row, i_column) == Symbol.Blank)
+                {
+                    isStreightLine = false;
+                    break;
+                }
+            }
+
+            return isStreightLine;
+
+        }
+        private bool isRowStreightLine(int i_row)
+        {
+            bool isStreightLine = true;
+
+            Symbol symbolToTest = GetSymbol(i_row, 0);
+            for (int column = 0; column < Size; column++)
+            {
+                if (GetSymbol(i_row, column) != symbolToTest || GetSymbol(i_row, column) == Symbol.Blank)
+                {
+                    isStreightLine = false;
+                    break;
+                }
+            }
+
+            return isStreightLine;
+        }
+        private bool isDiagonalStreightLine()
+        {
+            bool isStreightLine = true;
+
+            Symbol symbolToTest = GetSymbol(0, 0);
+            for (int row = 0; row < Size; row++)
+            {
+                if (GetSymbol(row, row) != symbolToTest || GetSymbol(row, row) == Symbol.Blank)
+                {
+                    isStreightLine = false;
+                    break;
+                }
+            }
+
+            return isStreightLine;
+        }
+        private bool isAntiDiagonalStreightLine()
+        {
+            bool isStreightLine = true;
+
+            Symbol symbolToTest = GetSymbol(0, 0);
+            for (int row = 0; row < Size; row++)
+            {
+                if (GetSymbol(row, Size - 1 - row) != symbolToTest || GetSymbol(row, Size - 1 - row) == Symbol.Blank)
+                {
+                    isStreightLine = false;
+                    break;
+                }
+            }
+
+            return isStreightLine;
+        }
+
 
 
     }
