@@ -27,7 +27,7 @@ namespace ReverseTicTacToe
                 }
                 
                 //player 1
-                bool continuePlay = PlayPlayer1(size, pointToDraw);
+                bool continuePlay = PlayPlayer(size, playerType.User, Symbol.X, "Player 1", pointToDraw);
                 if (continuePlay == false)
                 {
                     Console.WriteLine("Do you want another game?");
@@ -36,7 +36,7 @@ namespace ReverseTicTacToe
                 }
 
                 //player 2
-                continuePlay = PlayPlayer2(size, playerType, pointToDraw);
+                continuePlay = PlayPlayer(size, playerType, Symbol.O, "Player 2", pointToDraw);
                 if (continuePlay == false)
                 {
                     m_game.Restart();
@@ -47,54 +47,42 @@ namespace ReverseTicTacToe
             Console.Read();
         }
 
-        private static bool PlayPlayer1(int size, Point? pointToDraw)
-        {
-            bool continuePlay = PlayTurn(size, pointToDraw, Symbol.X);
-            if (m_game.HasWinner())
-            {
-                Console.WriteLine("The winner is player 2 !!!!!");
-                printScores();
-                continuePlay = false;
-            }
-
-            if (m_game.Board.IsBoardFull())
-            {
-                Console.WriteLine("The board is full, No winner :(");
-                continuePlay = false;
-            }
-
-            return continuePlay;
-        }
-
-        private static bool PlayPlayer2(int size, playerType playerType, Point? pointToDraw)
+        private static bool PlayPlayer(int boardSize, playerType playerType, Symbol symbol, string playerName, Point? pointToDraw)
         {
             bool continuePlay = false;
             if (playerType == ReverseTicTacToe.playerType.User)
             {
-                continuePlay = PlayTurn(size, pointToDraw, Symbol.O);
+                continuePlay = playTurn(boardSize, pointToDraw, symbol);
             }
             else
             {
-                m_game.PlayTurn(Symbol.O);
+                m_game.PlayTurn(symbol);
             }
 
             if (m_game.HasWinner())
             {
-                Console.WriteLine("The winner is player 1 !!!!!");
+                Console.WriteLine(String.Format("The winner is {0} !!!!!", playerName));
                 printScores();
+                Console.WriteLine("Press any key to continue");
+                Console.ReadKey();
                 continuePlay = false;
             }
-
-            if (m_game.Board.IsBoardFull())
+            else
             {
-                Console.WriteLine("The board is full, No winner :(");
-                continuePlay = false;
+                if (m_game.Board.IsBoardFull())
+                {
+                    Console.WriteLine("The board is full, No winner :(");
+                    printScores();
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
+                    continuePlay = false;
+                }
             }
 
             return continuePlay;
         }
 
-        private static bool PlayTurn(int size, Point? pointToDraw, Symbol symbol)
+        private static bool playTurn(int size, Point? pointToDraw, Symbol symbol)
         {
             bool wasSuccess = m_game.PlayTurn(new Point(pointToDraw.Value.X - 1, pointToDraw.Value.Y - 1), symbol);
             printBoard();
@@ -145,46 +133,59 @@ namespace ReverseTicTacToe
         {
             Console.Clear();
             Symbol[,] board = m_game.Board.GetData();
-
             int rowLength = board.GetLength(0);
             int colLength = board.GetLength(1);
+            StringBuilder boardToDraw = new StringBuilder();
 
-            Console.Write(" ");
+            boardToDraw.Append(" ");
             for (int col = 1; col <= rowLength; col++)
             {
-                Console.Write(String.Format("   {0}", col));   
+                boardToDraw.Append(String.Format("   {0}", col));   
             }
-            Console.WriteLine();
+
+            boardToDraw.AppendLine();
             for (int row = 0; row < rowLength; row++)
             {
-                Console.Write(String.Format(" {0}|", row+1));
+                boardToDraw.Append(String.Format(" {0}|", row+1));
                 for (int col = 0; col < colLength; col++)
                 {
                     switch (board[row, col])
                     {
                         case Symbol.Blank:
-                            Console.Write("   ");
+                            boardToDraw.Append("   ");
                             break;
                         case Symbol.X:
-                            Console.Write(" X ");
+                            boardToDraw.Append(" X ");
                             break;
                         case Symbol.O:
-                            Console.Write(" O ");
+                            boardToDraw.Append(" O ");
                             break;
                         default:
                             break;
                     }
-                    Console.Write("|");
+                    
+                    boardToDraw.Append("|");
                 }
-                
-                Console.WriteLine();
-                Console.WriteLine("  ========================");
+
+                boardToDraw.AppendLine();
+                boardToDraw.Append("  ");
+                for (int index = 0; index < colLength; index++)
+                {
+                    boardToDraw.Append("====");
+                }
+
+                boardToDraw.AppendLine();
             }
+
+            Console.WriteLine(boardToDraw);
         }
 
         private static void printScores()
         {
-            Console.WriteLine(String.Format("Player1: {0}, Player2: {1}", m_game.GetScores().Player1, m_game.GetScores().Player2));
+            Console.WriteLine(String.Format("Player1: {0}, {1}Player2: {2}", 
+                m_game.GetScores().Player1, 
+                Environment.NewLine,
+                m_game.GetScores().Player2));
         }
 
         private static Point? getToDrawFromUser(int boardSize)
@@ -234,12 +235,15 @@ namespace ReverseTicTacToe
 
         private static void printWinner()
         {
+            StringBuilder scoresBoardToDraw = new StringBuilder();
+            scoresBoardToDraw.AppendLine();
+            scoresBoardToDraw.Append("****Score Board****");
+            scoresBoardToDraw.AppendLine();
+            scoresBoardToDraw.AppendLine(String.Format("   Player1: {0}", m_game.GetScores().Player1));
+            scoresBoardToDraw.AppendLine(String.Format("   Player2: {0}", m_game.GetScores().Player2));
+            scoresBoardToDraw.AppendLine();
 
+            Console.WriteLine(scoresBoardToDraw);
         }
-
-        private static void isToStartAnotherGame()
-        {
-        }
-
     }
 }
