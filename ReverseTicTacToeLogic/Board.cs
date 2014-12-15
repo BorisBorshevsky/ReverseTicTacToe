@@ -7,27 +7,27 @@ namespace ReverseTicTacToeLogic
 {
     public class Board
     {
-        private Symbol[,] m_board;
+        private eSymbol[,] m_board;
 
         public int Size { get { return m_board.GetLength(0); } }
 
         public Board(int size)
         {
-            m_board = new Symbol[size, size];
+            m_board = new eSymbol[size, size];
         }
 
-        public Symbol[,] GetData()
+        public eSymbol[,] GetData()
         {
             return m_board;
         }
 
         public void initializeBoard()
         {
-            for (int row = 0; row < m_board.GetLength(0); row++)
+            for (int row = 0; row < Size; row++)
             {
-                for (int column = 0; column < m_board.GetLength(1); column++)
+                for (int column = 0; column < Size; column++)
                 {
-                    SetSymbol(Symbol.Blank, new Point(row, column));
+                    SetSymbol(eSymbol.Blank, new Point(row, column));
                 }
             }
         }
@@ -40,7 +40,7 @@ namespace ReverseTicTacToeLogic
             {
                 for (int column = 0; column < m_board.GetLength(1); column++)
                 {
-                    if (m_board[row, column] == Symbol.Blank)
+                    if (m_board[row, column] == eSymbol.Blank)
                     {
                         isBoardFull = false;
                         break;
@@ -79,25 +79,22 @@ namespace ReverseTicTacToeLogic
             
             if (m_board.GetLength(0) > i_coordinates.X || m_board.GetLength(1) > i_coordinates.Y)
             {
-                isValidMove = m_board[i_coordinates.X, i_coordinates.Y] == Symbol.Blank;
+                isValidMove = m_board[i_coordinates.X, i_coordinates.Y] == eSymbol.Blank;
             }
 
             return isValidMove;
         }
 
-        public void SetSymbol(Symbol i_symbol, Point i_coordinates)
+        public void SetSymbol(eSymbol i_symbol, Point i_coordinates)
         {
-            if (IsValidMove(i_coordinates))
-            {
-                m_board[i_coordinates.X, i_coordinates.Y] = i_symbol;
-            }
+            m_board[i_coordinates.X, i_coordinates.Y] = i_symbol;
         }
-        public Symbol GetSymbol(Point i_coordinates)
+        public eSymbol GetSymbol(Point i_coordinates)
         {
             return m_board[i_coordinates.X, i_coordinates.Y];
         }
 
-        public Symbol GetSymbol(int i_row, int i_column)
+        public eSymbol GetSymbol(int i_row, int i_column)
         {
             return m_board[i_row, i_column];
         }
@@ -107,10 +104,10 @@ namespace ReverseTicTacToeLogic
         {
             bool isStreightLine = true;
 
-            Symbol symbolToTest = GetSymbol(0, i_column);
+            eSymbol symbolToTest = GetSymbol(0, i_column);
             for (int row = 0; row < Size; row++)
             {
-                if (GetSymbol(row, i_column) != symbolToTest || GetSymbol(row, i_column) == Symbol.Blank)
+                if (GetSymbol(row, i_column) != symbolToTest || GetSymbol(row, i_column) == eSymbol.Blank)
                 {
                     isStreightLine = false;
                     break;
@@ -124,10 +121,10 @@ namespace ReverseTicTacToeLogic
         {
             bool isStreightLine = true;
 
-            Symbol symbolToTest = GetSymbol(i_row, 0);
+            eSymbol symbolToTest = GetSymbol(i_row, 0);
             for (int column = 0; column < Size; column++)
             {
-                if (GetSymbol(i_row, column) != symbolToTest || GetSymbol(i_row, column) == Symbol.Blank)
+                if (GetSymbol(i_row, column) != symbolToTest || GetSymbol(i_row, column) == eSymbol.Blank)
                 {
                     isStreightLine = false;
                     break;
@@ -140,10 +137,10 @@ namespace ReverseTicTacToeLogic
         {
             bool isStreightLine = true;
 
-            Symbol symbolToTest = GetSymbol(0, 0);
+            eSymbol symbolToTest = GetSymbol(0, 0);
             for (int row = 0; row < Size; row++)
             {
-                if (GetSymbol(row, row) != symbolToTest || GetSymbol(row, row) == Symbol.Blank)
+                if (GetSymbol(row, row) != symbolToTest || GetSymbol(row, row) == eSymbol.Blank)
                 {
                     isStreightLine = false;
                     break;
@@ -156,10 +153,10 @@ namespace ReverseTicTacToeLogic
         {
             bool isStreightLine = true;
 
-            Symbol symbolToTest = GetSymbol(0, 0);
+            eSymbol symbolToTest = GetSymbol(0, 0);
             for (int row = 0; row < Size; row++)
             {
-                if (GetSymbol(row, Size - 1 - row) != symbolToTest || GetSymbol(row, Size - 1 - row) == Symbol.Blank)
+                if (GetSymbol(row, Size - 1 - row) != symbolToTest || GetSymbol(row, Size - 1 - row) == eSymbol.Blank)
                 {
                     isStreightLine = false;
                     break;

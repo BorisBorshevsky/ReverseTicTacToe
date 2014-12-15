@@ -3,21 +3,21 @@
 
     public class ScoreBoard
     {
-        private Scores scores;
+        private Scores m_scores;
 
         public void AddWinToPlayer1()
         {
-            scores.Player1++;
+            m_scores.Player1++;
         }
 
         public void AddWinToPlayer2()
         {
-            scores.Player2++;
+            m_scores.Player2++;
         }
 
         public Scores GetScores()
         {
-            return scores;
+            return m_scores;
         }
 
         public struct Scores

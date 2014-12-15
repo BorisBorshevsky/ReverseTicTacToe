@@ -33,12 +33,12 @@ namespace ReverseTicTacToe
                     bool stopGame;
                     if (player1ShouldPlay)
                     {
-                        doUserTurn(boardSize, pointToDraw, Symbol.X, out stopGame);
+                        doUserTurn(boardSize, pointToDraw, eSymbol.X, out stopGame);
                         CheckBoard("Player2", out stopGame);
                     }
                     else
                     {
-                        doUserTurn(boardSize, pointToDraw, Symbol.O, out stopGame);
+                        doUserTurn(boardSize, pointToDraw, eSymbol.O, out stopGame);
                         CheckBoard("Player1", out stopGame);
                     }
 
@@ -54,13 +54,12 @@ namespace ReverseTicTacToe
                         continue;
                     }
                 }
+
                 else
                 {
-                    m_game.PlayTurn(Symbol.O);
+                    m_game.PlayTurn(eSymbol.O, eSymbol.X);
                 }
-
                 player1ShouldPlay = !player1ShouldPlay;
-                
             }
             Console.Clear();
             Console.WriteLine("Bye Bye");
@@ -88,7 +87,7 @@ namespace ReverseTicTacToe
             }
         }
 
-        private static void doUserTurn(int boardSize, Point? pointToDraw, Symbol symbol, out bool stopGame)
+        private static void doUserTurn(int boardSize, Point? pointToDraw, eSymbol symbol, out bool stopGame)
         {
             bool wasSuccess = m_game.PlayTurn(new Point(pointToDraw.Value.X - 1, pointToDraw.Value.Y - 1), symbol);
             printBoard();
@@ -138,7 +137,7 @@ namespace ReverseTicTacToe
         private static void printBoard()
         {
             Console.Clear();
-            Symbol[,] board = m_game.Board.GetData();
+            eSymbol[,] board = m_game.Board.GetData();
             int rowLength = board.GetLength(0);
             int colLength = board.GetLength(1);
             StringBuilder boardToDraw = new StringBuilder();
@@ -157,13 +156,13 @@ namespace ReverseTicTacToe
                 {
                     switch (board[row, col])
                     {
-                        case Symbol.Blank:
+                        case eSymbol.Blank:
                             boardToDraw.Append("   ");
                             break;
-                        case Symbol.X:
+                        case eSymbol.X:
                             boardToDraw.Append(" X ");
                             break;
-                        case Symbol.O:
+                        case eSymbol.O:
                             boardToDraw.Append(" O ");
                             break;
                         default:

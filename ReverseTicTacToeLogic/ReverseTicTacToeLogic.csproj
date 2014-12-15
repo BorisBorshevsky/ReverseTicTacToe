@@ -36,7 +36,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\ArtificialIntelligenceAlgorithm.cs" />
-    <Compile Include="Algorithms\RandomAlgorithm.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Symbol.cs" />
     <Compile Include="ScoreBoard.cs" />
