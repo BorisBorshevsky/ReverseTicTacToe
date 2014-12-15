@@ -26,7 +26,7 @@ namespace ReverseTicTacToeLogic.Algorithms
                         if (!checkIfMoveEndsTheGame(i_board, currentMove, i_currentUserSymbol))
                         {
                             goodMoves.Add(currentMove);
-                            if (checkIfMoveEndsTheGame(i_board, currentMove, i_opponnentSymbol))
+                            if (!checkIfMoveEndsTheGame(i_board, currentMove, i_opponnentSymbol))
                             {
                                 bestMoves.Add(currentMove);
                             }

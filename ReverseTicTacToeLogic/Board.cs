@@ -9,7 +9,9 @@ namespace ReverseTicTacToeLogic
     {
         private eSymbol[,] m_board;
 
-        public int Size { get { return m_board.GetLength(0); } }
+        public int Size {
+            get { return m_board.GetLength(0); } 
+        }
 
         public Board(int size)
         {
@@ -27,7 +29,7 @@ namespace ReverseTicTacToeLogic
             {
                 for (int column = 0; column < Size; column++)
                 {
-                    SetSymbol(eSymbol.Blank, new Point(row, column));
+                    SetSymbol(eSymbol.Blank, row, column);
                 }
             }
         }
@@ -36,17 +38,18 @@ namespace ReverseTicTacToeLogic
         {
             bool isBoardFull = true;
             
-            for (int row = 0; row < m_board.GetLength(0); row++)
+            for (int row = 0; row < Size; row++)
             {
-                for (int column = 0; column < m_board.GetLength(1); column++)
+                for (int column = 0; column < Size; column++)
                 {
                     if (m_board[row, column] == eSymbol.Blank)
                     {
                         isBoardFull = false;
-                        break;
+                        goto EndOfLoop;
                     }
                 }
             }
+            EndOfLoop:
            
             return isBoardFull;
         }
@@ -87,18 +90,23 @@ namespace ReverseTicTacToeLogic
 
         public void SetSymbol(eSymbol i_symbol, Point i_coordinates)
         {
-            m_board[i_coordinates.X, i_coordinates.Y] = i_symbol;
+            SetSymbol(i_symbol, i_coordinates.X, i_coordinates.Y);
         }
+        public void SetSymbol(eSymbol i_symbol, int i_row, int i_column)
+        {
+            m_board[i_row, i_column] = i_symbol;
+        }
+
+
         public eSymbol GetSymbol(Point i_coordinates)
         {
-            return m_board[i_coordinates.X, i_coordinates.Y];
+            return GetSymbol(i_coordinates.X, i_coordinates.Y);
         }
 
         public eSymbol GetSymbol(int i_row, int i_column)
         {
             return m_board[i_row, i_column];
         }
-
 
         private bool isColumnStrightLine(int i_column)
         {
