@@ -115,10 +115,13 @@ namespace ReverseTicTacToe
                     io_IsUserSurrendered = true;
                     break;
                 }
-                else
+
+                Point boardPoint = convertUserPointToBoardPoint(coordinatesToPlay.Value);
+                isTurnValid = m_TicTacToe.TryPlayTurn(boardPoint, m_CurrentPlayer.Symbol);
+
+                if (!isTurnValid)
                 {
-                    Point boardPoint = convertUserPointToBoardPoint(coordinatesToPlay.Value);
-                    isTurnValid = m_TicTacToe.TryPlayTurn(boardPoint, m_CurrentPlayer.Symbol);
+                    Console.WriteLine("invalid Input. Try again");
                 }
 
             } while (!isTurnValid);
