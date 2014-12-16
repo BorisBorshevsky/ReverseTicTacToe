@@ -1,6 +1,5 @@
 ﻿namespace ReverseTicTacToeLogic
 {
-
     public class ScoreBoard
     {
         private Scores m_scores;

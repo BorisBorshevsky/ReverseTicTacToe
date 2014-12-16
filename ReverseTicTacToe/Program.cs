@@ -4,9 +4,8 @@
     {
         public static void Main()
         {
-            Ui2 consoleUi = new Ui2();
+            TicTacToeConsoleUI consoleUi = new TicTacToeConsoleUI();
             consoleUi.Start();
         }
-    
     }
 }

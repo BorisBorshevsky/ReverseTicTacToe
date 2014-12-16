@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ReverseTicTacToeLogic;
+﻿using ReverseTicTacToeLogic;
 
 namespace ReverseTicTacToe
 {
@@ -12,12 +9,9 @@ namespace ReverseTicTacToe
             PlayerType = i_PlayerType;
             Symbol = i_Symbol;
         }
-        
-        
+
         public ePlayerType PlayerType { get; set; }
 
-
         public eSymbol Symbol { get; set; }
-
     }
 }

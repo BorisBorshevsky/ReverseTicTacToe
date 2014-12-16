@@ -1,27 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
+﻿using System.Drawing;
+using ReverseTicTacToeLogic.Algorithms;
 
 namespace ReverseTicTacToeLogic
 {
     public class TicTacToe
     {
-        private readonly Board m_board;
-        private readonly ScoreBoard m_scoreBoard;
+        private readonly ScoreBoard r_scoreBoard;
 
-        public Board Board { get { return m_board; }}
+        public Board Board
+        {
+            get;
+            private set;
+        }
 
         public TicTacToe(int size)
         {
-            m_scoreBoard = new ScoreBoard();
-            m_board = new Board(size);
-            m_board.InitializeBoard();
+            r_scoreBoard = new ScoreBoard();
+            Board = new Board(size);
+            Board.InitializeBoard();
         }
 
-        public bool TryPlayTurn(eSymbol i_PlayersSymbol, eSymbol i_OpponentSymbol)
+        public bool TryPlayTurn(eSymbol i_PlayersSymbol)
         {
-            Point computerMove = Algorithms.ArtificialIntelligenceAlgorithm.GetMove(Board, i_PlayersSymbol, i_OpponentSymbol);
+            eSymbol opponentSymbol = eSymbol.O;
+            if (i_PlayersSymbol == eSymbol.O)
+            {
+                opponentSymbol = eSymbol.X;
+            }
+
+            Point computerMove = ArtificialIntelligenceAlgorithm.GetMove(Board, i_PlayersSymbol, opponentSymbol);
             
             return TryPlayTurn(computerMove, i_PlayersSymbol);
         }
@@ -43,32 +50,31 @@ namespace ReverseTicTacToeLogic
             {
                 if (i_PlayersSymbol == eSymbol.X)
                 {
-                    m_scoreBoard.AddWinToPlayer2();
+                    r_scoreBoard.AddWinToPlayer2();
                 }
                 else
                 {
-                    m_scoreBoard.AddWinToPlayer1();
+                    r_scoreBoard.AddWinToPlayer1();
                 }
             }
 
             return isPlayedSucceded;
         }
 
-
         public ScoreBoard.Scores GetScores()
         {
-            return m_scoreBoard.GetScores();
+            return r_scoreBoard.GetScores();
         }
 
         public void Surrender(eSymbol i_PlayersSymbol)
         {
             if (i_PlayersSymbol == eSymbol.X)
             {
-                m_scoreBoard.AddWinToPlayer2();
+                r_scoreBoard.AddWinToPlayer2();
             }
             else
             {
-                m_scoreBoard.AddWinToPlayer1();
+                r_scoreBoard.AddWinToPlayer1();
             }
         }
 
@@ -76,6 +82,5 @@ namespace ReverseTicTacToeLogic
         {
             Board.InitializeBoard();
         }
-
     }
 }

@@ -4,20 +4,20 @@ namespace ReverseTicTacToeLogic
 {
     public class Board
     {
-        private readonly eSymbol[,] m_board;
+        private readonly eSymbol[,] r_board;
 
         public int Size {
-            get { return m_board.GetLength(0); } 
+            get { return r_board.GetLength(0); } 
         }
 
         public Board(int size)
         {
-            m_board = new eSymbol[size, size];
+            r_board = new eSymbol[size, size];
         }
 
         public eSymbol[,] GetData()
         {
-            return m_board;
+            return r_board;
         }
 
         public void InitializeBoard()
@@ -39,7 +39,7 @@ namespace ReverseTicTacToeLogic
             {
                 for (int column = 0; column < Size; column++)
                 {
-                    if (m_board[row, column] == eSymbol.Blank)
+                    if (r_board[row, column] == eSymbol.Blank)
                     {
                         isBoardFull = false;
                         goto EndOfLoop;
@@ -76,10 +76,10 @@ namespace ReverseTicTacToeLogic
         public bool IsValidMove(Point i_Coordinates)
         {
             bool isValidMove = false;
-            
-            if (Size > i_Coordinates.X || Size > i_Coordinates.Y)
+
+            if (i_Coordinates.X < Size && i_Coordinates.X >= 0 && i_Coordinates.Y < Size && i_Coordinates.Y >= 0)
             {
-                isValidMove = m_board[i_Coordinates.X, i_Coordinates.Y] == eSymbol.Blank;
+                isValidMove = r_board[i_Coordinates.X, i_Coordinates.Y] == eSymbol.Blank;
             }
 
             return isValidMove;
@@ -89,9 +89,10 @@ namespace ReverseTicTacToeLogic
         {
             SetSymbol(i_SymbolToPlace, i_Coordinates.X, i_Coordinates.Y);
         }
+
         public void SetSymbol(eSymbol i_SymbolToPlace, int i_Row, int i_Column)
         {
-            m_board[i_Row, i_Column] = i_SymbolToPlace;
+            r_board[i_Row, i_Column] = i_SymbolToPlace;
         }
 
         public eSymbol GetSymbol(Point i_Coordinates)
@@ -101,7 +102,7 @@ namespace ReverseTicTacToeLogic
 
         public eSymbol GetSymbol(int i_Row, int i_Column)
         {
-            return m_board[i_Row, i_Column];
+            return r_board[i_Row, i_Column];
         }
 
         private bool isColumnStrightLine(int i_Column)

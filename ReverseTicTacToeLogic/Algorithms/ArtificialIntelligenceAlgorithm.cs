@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 
 namespace ReverseTicTacToeLogic.Algorithms
 {
-    static class ArtificialIntelligenceAlgorithm
+    public static class ArtificialIntelligenceAlgorithm
     {
         public static Point GetMove(Board i_Board, eSymbol i_CurrentUserSymbol, eSymbol i_OpponentSymbol)
         {
-            Board dynamicProgrammingBoard = new Board(i_Board.Size);
             List<Point> availableMoves = new List<Point>();
             List<Point> goodMoves = new List<Point>();
             List<Point> bestMoves = new List<Point>();
@@ -31,7 +29,6 @@ namespace ReverseTicTacToeLogic.Algorithms
                                 bestMoves.Add(currentMove);
                             }
                         }
-
                     }
                 }
             }
@@ -50,7 +47,6 @@ namespace ReverseTicTacToeLogic.Algorithms
             {
                 calculatedBestMove = availableMoves[random.Next(availableMoves.Count)];
             }
-
 
             return calculatedBestMove;
         }
