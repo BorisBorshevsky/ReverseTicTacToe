@@ -9,30 +9,13 @@ namespace ReverseTicTacToe
 {
     public class Ui2
     {
-        public Ui2()
-        {
-            
-            player1 = new Player();
-            player2 = new Player();
-
-            currentPlayer = player1;
-        }
+        private static bool isUserSurrendered = false;
 
         Player player1;
         Player player2;
         Player currentPlayer;
-        TicTacToe ticTacToe = new TicTacToe(5);
-        
+        TicTacToe ticTacToe;
 
-        public class Player
-        {
-            public ePlayerType PlayerType { get; set; }
-
-            public bool IsPc { get; set; }
-
-            public eSymbol Symbol { get; set; }
-
-        }
         enum CellState
         {
             Empty,
@@ -40,38 +23,80 @@ namespace ReverseTicTacToe
             Invalid
         }
 
-
-
-        public  void Start()
+        public void Start()
         {
+            int boardSize = GetBoardSize();
+            TicTacToe game = new TicTacToe(boardSize);
             
-            //start game proceess
+            ePlayerType opponentType = GetOpponentPlayertype();
+            player1 = new Player(ePlayerType.User, eSymbol.X);
+            player2 = new Player(opponentType, eSymbol.O);
+
+            while (true)
+            {
+                StartSingleGame();
+
+                
+                DisplayScores();
+
+
+
+                bool isAnotherGame = isPlayAnotherGame();
+                if (!isAnotherGame)
+                {
+                    break;
+                }
+            }
+            
+            //bye bye string
+
+            
+        }
+
+        public void StartSingleGame(){
+            
+            currentPlayer = player1;
+            ticTacToe.Board.InitializeBoard();
+            bool isUserSurrendered = false;
+
+
             while (true)
             {
                 DisplayBoard();
                 if (currentPlayer.PlayerType == ePlayerType.User)
                 {
-                    PlayUserTurn(currentPlayer);
+                    PlayUserTurn(currentPlayer, isUserSurrendered);
+                    if (isUserSurrendered)
+                    {
+                        ticTacToe.Surrender(currentPlayer.Symbol);
+                        break;
+                    }
                 }
                 else
                 {
                     playPcTurn();
                 }
+                
                 eGameState gameState = GetGameState(ticTacToe.Board);
                 switch (gameState)
                 {
                     case eGameState.Active:
+                        //all cool - contniure playing
+                        
                         break;
                     case eGameState.BoardFull:
+                        //print Tie and exit
+
                         break;
                     case eGameState.HasWinner:
+                        //print winner and exit
                         break;
                 }
 
                 togglePlayerTurn();
             }
-            
         }
+
 
         public enum eGameState
         {
@@ -86,40 +111,35 @@ namespace ReverseTicTacToe
         }
 
 
-        public void PlayUserTurn(Player p)
+        public void PlayUserTurn(Player p, bool io_isUserSurrendered)
         {
             bool isTurnValid = false;
-            Point? a;
+            io_isUserSurrendered = false;
+
+
+            Point? coordinatesToPlay;
            
             do
             {
-                a = GetInputFromUser();
+                coordinatesToPlay = GetInputFromUser();
                 
-                if (a == null)
+                if (coordinatesToPlay == null)
                 {
-                    ticTacToe.Surrender(currentPlayer.Symbol);
-                    ticTacToe.Restart();
-                    RestartUi();
+                    io_isUserSurrendered = true;
                     break;
                 }
                 else
                 {
-                     isTurnValid = ticTacToe.TryPlayTurn(a.Value, currentPlayer.Symbol);
+                     isTurnValid = ticTacToe.TryPlayTurn(coordinatesToPlay.Value, currentPlayer.Symbol);
                 }
             } while (!isTurnValid);
 
         }
+        
+        
         public void PlayPcTurn(Player p)
         {
             ticTacToe.TryPlayTurn(currentPlayer.Symbol,getNextPlayer().Symbol);
-        }
-
-
-
-
-        void RestartUi()
-        {
-            
         }
 
         void togglePlayerTurn()
@@ -131,8 +151,6 @@ namespace ReverseTicTacToe
         {
             return currentPlayer == player1 ? player2 : player1;
         }
-
-        private  void StartGameProcess() { }
 
         public  Point? GetInputFromUser()
         {
@@ -148,18 +166,19 @@ namespace ReverseTicTacToe
             return true;
         }
 
-        public  void playUserTurn() { }
 
         public  void playPcTurn()
         {
         }
 
-        public  int GetBoardSize()
+        public int GetBoardSize()
         {
-            return 0;
+            return 5;
         }
 
-        public  Player GetPlayer() { return null; }
+        public ePlayerType GetOpponentPlayertype() {
+            return ePlayerType.Computer;
+        }
        
     }
 }

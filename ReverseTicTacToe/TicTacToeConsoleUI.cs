@@ -34,13 +34,13 @@ namespace ReverseTicTacToe
 
                     if (!stopGame && player1ShouldPlay) //player1
                     {
-                        doUserTurn(boardSize, pointToDraw, eSymbol.X, out stopGame);
+                        //doUserTurn(boardSize, pointToDraw, eSymbol.X, out stopGame);
                         stopGame = isGameEnded(eSymbol.X);
                         PrintWinner(eSymbol.X);
                     }
                     else if (!stopGame && !player1ShouldPlay) //player2
                     {
-                        doUserTurn(boardSize, pointToDraw, eSymbol.O, out stopGame);
+                        //doUserTurn(boardSize, pointToDraw, eSymbol.O, out stopGame);
                         stopGame = isGameEnded(eSymbol.O);
                         PrintWinner(eSymbol.O);
                     } 

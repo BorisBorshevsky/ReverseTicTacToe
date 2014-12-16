@@ -33,8 +33,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ePlayerType.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="TicTacToeConsoleUi.cs" />
+    <Compile Include="Ui2.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Ex02.ConsoleUtils">
