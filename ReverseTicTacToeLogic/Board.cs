@@ -6,7 +6,8 @@ namespace ReverseTicTacToeLogic
     {
         private readonly eSymbol[,] r_board;
 
-        public int Size {
+        public int Size 
+        {
             get { return r_board.GetLength(0); } 
         }
 
@@ -112,8 +113,8 @@ namespace ReverseTicTacToeLogic
         private bool isColumnStrightLine(int i_Column)
         {
             bool isStreightLine = true;
-
             eSymbol symbolToTest = GetSymbol(0, i_Column);
+
             for (int row = 0; row < Size; row++)
             {
                 if (GetSymbol(row, i_Column) != symbolToTest || GetSymbol(row, i_Column) == eSymbol.Blank)
@@ -124,7 +125,6 @@ namespace ReverseTicTacToeLogic
             }
 
             return isStreightLine;
-
         }
        
         private bool isRowStreightLine(int i_Row)
@@ -163,8 +163,8 @@ namespace ReverseTicTacToeLogic
         private bool isAntiDiagonalStreightLine()
         {
             bool isStreightLine = true;
-
             eSymbol symbolToTest = GetSymbol(0, 0);
+
             for (int row = 0; row < Size; row++)
             {
                 if (GetSymbol(row, Size - 1 - row) != symbolToTest || GetSymbol(row, Size - 1 - row) == eSymbol.Blank)

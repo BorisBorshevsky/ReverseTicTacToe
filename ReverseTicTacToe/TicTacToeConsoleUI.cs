@@ -259,11 +259,13 @@ namespace ReverseTicTacToe
                     isPlayAnotherGame = true;
                     break;
                 }
-                else if (userInput.Key == ConsoleKey.D2 || userInput.Key == ConsoleKey.NumPad2)
+
+                if (userInput.Key == ConsoleKey.D2 || userInput.Key == ConsoleKey.NumPad2)
                 {
                     isPlayAnotherGame = false;
                     break;
                 }
+
                 Console.WriteLine("invalid input");
                 userInput = Console.ReadKey();
             }
@@ -304,6 +306,5 @@ namespace ReverseTicTacToe
 
             return (ePlayerType)Char.GetNumericValue(input);
         }
-       
     }
 }

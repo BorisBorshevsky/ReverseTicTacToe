@@ -19,7 +19,6 @@ namespace ReverseTicTacToeLogic
         public eCellState TryPlayTurn(Player i_Player)
         {
             eSymbol opponentSymbol = i_Player.Symbol == eSymbol.O ? eSymbol.X : eSymbol.O;
-            
             Point computerMove = ArtificialIntelligenceAlgorithm.GetMove(Board, i_Player.Symbol, opponentSymbol);
             
             return TryPlayTurn(computerMove, i_Player);
@@ -63,6 +62,5 @@ namespace ReverseTicTacToeLogic
         {
             AddScoreToOpponent(i_Player);
         }
-
     }
 }

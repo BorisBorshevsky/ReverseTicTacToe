@@ -34,7 +34,6 @@ namespace ReverseTicTacToeLogic.Algorithms
             }
 
             Random random = new Random();
-            
             if (bestMoves.Count > 0)
             {
                 calculatedBestMove = bestMoves[random.Next(bestMoves.Count)];

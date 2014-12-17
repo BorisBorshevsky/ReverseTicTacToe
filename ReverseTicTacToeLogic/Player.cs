@@ -1,10 +1,7 @@
-﻿using ReverseTicTacToeLogic;
-
-namespace ReverseTicTacToeLogic
+﻿namespace ReverseTicTacToeLogic
 {
     public class Player
     {
-        
         public Player(ePlayerType i_PlayerType, eSymbol i_Symbol, string i_PlayerName)
         {
             PlayerType = i_PlayerType;
@@ -12,12 +9,12 @@ namespace ReverseTicTacToeLogic
             PlayerName = i_PlayerName;
         }
 
-        public int Score { get; private set; }
-
         public void AddWinToScore()
         {
             Score++;
         }
+
+        public int Score { get; private set; }
 
         public string PlayerName { get; private set; }
 

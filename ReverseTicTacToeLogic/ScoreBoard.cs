@@ -2,26 +2,26 @@
 {
     public class ScoreBoard
     {
-        private Scores m_scores;
+        private readonly Scores r_scores;
 
         public ScoreBoard(Player i_Player1, Player i_Player2)
         {
-            m_scores = new Scores(i_Player1, i_Player2);
+            r_scores = new Scores(i_Player1, i_Player2);
         }
 
         public void AddWinToPlayer1()
         {
-            m_scores.Player1.AddWinToScore();
+            r_scores.Player1.AddWinToScore();
         }
 
         public void AddWinToPlayer2()
         {
-            m_scores.Player2.AddWinToScore();
+            r_scores.Player2.AddWinToScore();
         }
 
         public Scores GetScores()
         {
-            return m_scores;
+            return r_scores;
         }
 
         public class Scores
@@ -31,7 +31,9 @@
                 Player1 = i_Player1;
                 Player2 = i_Player2;
             }
+
             public Player Player1 { get; private set; }
+
             public Player Player2 { get; private set; }
         }
     }
