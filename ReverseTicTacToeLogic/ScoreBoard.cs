@@ -4,14 +4,19 @@
     {
         private Scores m_scores;
 
+        public ScoreBoard(Player i_Player1, Player i_Player2)
+        {
+            m_scores = new Scores(i_Player1, i_Player2);
+        }
+
         public void AddWinToPlayer1()
         {
-            m_scores.Player1++;
+            m_scores.Player1.AddWinToScore();
         }
 
         public void AddWinToPlayer2()
         {
-            m_scores.Player2++;
+            m_scores.Player2.AddWinToScore();
         }
 
         public Scores GetScores()
@@ -19,10 +24,15 @@
             return m_scores;
         }
 
-        public struct Scores
+        public class Scores
         {
-            public int Player1 { get; set; }
-            public int Player2 { get; set; }
+            public Scores(Player i_Player1, Player i_Player2)
+            {
+                Player1 = i_Player1;
+                Player2 = i_Player2;
+            }
+            public Player Player1 { get; private set; }
+            public Player Player2 { get; private set; }
         }
     }
 }

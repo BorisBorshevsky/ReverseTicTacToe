@@ -37,7 +37,8 @@
   <ItemGroup>
     <Compile Include="Algorithms\ArtificialIntelligenceAlgorithm.cs" />
     <Compile Include="Board.cs" />
-    <Compile Include="eSymbol.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="ScoreBoard.cs" />
     <Compile Include="TicTacToe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

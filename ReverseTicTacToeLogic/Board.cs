@@ -73,16 +73,20 @@ namespace ReverseTicTacToeLogic
             return isStreightLineAchieved;
         }
 
-        public bool IsValidMove(Point i_Coordinates)
+        public eCellState GetCellState(Point i_Coordinates)
         {
-            bool isValidMove = false;
+            eCellState cellState = eCellState.Empty;
 
-            if (i_Coordinates.X < Size && i_Coordinates.X >= 0 && i_Coordinates.Y < Size && i_Coordinates.Y >= 0)
+            if (i_Coordinates.X < 0 || i_Coordinates.Y < 0 || i_Coordinates.X >= Size || i_Coordinates.Y >= Size)
             {
-                isValidMove = r_board[i_Coordinates.X, i_Coordinates.Y] == eSymbol.Blank;
+                cellState = eCellState.OutOfRange;
             }
-
-            return isValidMove;
+            else
+            {
+                cellState = r_board[i_Coordinates.X, i_Coordinates.Y] == eSymbol.Blank ? eCellState.Empty : eCellState.Used;
+            }
+            
+            return cellState;
         }
 
         public void SetSymbol(eSymbol i_SymbolToPlace, Point i_Coordinates)

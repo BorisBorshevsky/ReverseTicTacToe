@@ -1,4 +1,4 @@
-﻿namespace ReverseTicTacToe
+﻿namespace ReverseTicTacToeLogic
 {
     public enum ePlayerType
     {
@@ -10,7 +10,7 @@
     {
         Empty,
         Used,
-        Invalid
+        OutOfRange
     }
 
     public enum eGameState
@@ -18,5 +18,12 @@
         BoardFull,
         HasWinner,
         Active
+    }
+
+    public enum eSymbol
+    {
+        Blank,
+        X,
+        O
     }
 }

@@ -7,68 +7,44 @@ namespace ReverseTicTacToeLogic
     {
         private readonly ScoreBoard r_scoreBoard;
 
-        public Board Board
-        {
-            get;
-            private set;
-        }
+        public Board Board { get; private set; }
 
-        public TicTacToe(int size)
+        public TicTacToe(int i_Size, Player i_Player1, Player i_Player2)
         {
-            r_scoreBoard = new ScoreBoard();
-            Board = new Board(size);
+            r_scoreBoard = new ScoreBoard(i_Player1, i_Player2);
+            Board = new Board(i_Size);
             Board.InitializeBoard();
         }
 
-        public bool TryPlayTurn(eSymbol i_PlayersSymbol)
+        public eCellState TryPlayTurn(Player i_Player)
         {
-            eSymbol opponentSymbol = eSymbol.O;
-            if (i_PlayersSymbol == eSymbol.O)
-            {
-                opponentSymbol = eSymbol.X;
-            }
-
-            Point computerMove = ArtificialIntelligenceAlgorithm.GetMove(Board, i_PlayersSymbol, opponentSymbol);
+            eSymbol opponentSymbol = i_Player.Symbol == eSymbol.O ? eSymbol.X : eSymbol.O;
             
-            return TryPlayTurn(computerMove, i_PlayersSymbol);
+            Point computerMove = ArtificialIntelligenceAlgorithm.GetMove(Board, i_Player.Symbol, opponentSymbol);
+            
+            return TryPlayTurn(computerMove, i_Player);
         }
 
-        public bool TryPlayTurn(Point i_coordinates, eSymbol i_PlayersSymbol)
+        public eCellState TryPlayTurn(Point i_Coordinates, Player i_Player)
         {
-            bool isPlayedSucceded = true;
-            
-            if (!Board.IsValidMove(i_coordinates))
+            eCellState cellState = Board.GetCellState(i_Coordinates);
+          
+            if (cellState == eCellState.Empty)
             {
-                isPlayedSucceded = false;
-            }
-            else
-            {
-                Board.SetSymbol(i_PlayersSymbol, i_coordinates);
+                Board.SetSymbol(i_Player.Symbol, i_Coordinates);
             }
 
             if (Board.HasWinner())
             {
-                if (i_PlayersSymbol == eSymbol.X)
-                {
-                    r_scoreBoard.AddWinToPlayer2();
-                }
-                else
-                {
-                    r_scoreBoard.AddWinToPlayer1();
-                }
+                AddScoreToOpponent(i_Player);
             }
 
-            return isPlayedSucceded;
+            return cellState;
         }
 
-        public ScoreBoard.Scores GetScores()
+        private void AddScoreToOpponent(Player i_CurrentPlayer)
         {
-            return r_scoreBoard.GetScores();
-        }
-
-        public void Surrender(eSymbol i_PlayersSymbol)
-        {
-            if (i_PlayersSymbol == eSymbol.X)
+            if (r_scoreBoard.GetScores().Player1 == i_CurrentPlayer)
             {
                 r_scoreBoard.AddWinToPlayer2();
             }
@@ -78,9 +54,15 @@ namespace ReverseTicTacToeLogic
             }
         }
 
-        public void Restart()
+        public ScoreBoard.Scores GetScores()
         {
-            Board.InitializeBoard();
+            return r_scoreBoard.GetScores();
         }
+
+        public void Surrender(Player i_Player)
+        {
+            AddScoreToOpponent(i_Player);
+        }
+
     }
 }

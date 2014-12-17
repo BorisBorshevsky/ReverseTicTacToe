@@ -8,8 +8,9 @@ namespace ReverseTicTacToe
 {
     public class TicTacToeConsoleUI
     {
-        private const int v_MinBoardSize = 3;
-        private const int v_MaxBoardSize = 9;
+        private const int k_MinBoardSize = 3;
+        private const int k_MaxBoardSize = 9;
+        private const ConsoleKey k_QuitKey = ConsoleKey.Q;
 
         private Player m_Player1;
         private Player m_Player2;
@@ -19,19 +20,17 @@ namespace ReverseTicTacToe
         public void Start()
         {
             int boardSize = getBoardSize();
-            m_TicTacToe = new TicTacToe(boardSize);
-
             ePlayerType opponentType = getOpponentPlayerType();
-            m_Player1 = new Player(ePlayerType.User, eSymbol.X);
-            m_Player2 = new Player(opponentType, eSymbol.O);
-
+            
+            m_Player1 = new Player(ePlayerType.User, eSymbol.X, "Player1");
+            m_Player2 = new Player(opponentType, eSymbol.O, "Player2");
+            m_TicTacToe = new TicTacToe(boardSize, m_Player1, m_Player2);
             while (true)
             {
-                StartSingleGame(boardSize);       
+                startSingleGame(boardSize);       
                 displayScores();
-
-                bool isAnotherGame = isPlayAnotherGame();
-                if (!isAnotherGame)
+                
+                if (!isPlayAnotherGame())
                 {
                     break;
                 }
@@ -42,8 +41,8 @@ namespace ReverseTicTacToe
             Console.ReadKey();
         }
 
-        public void StartSingleGame(int i_BoardSize){
-            
+        private void startSingleGame(int i_BoardSize)
+        {
             m_CurrentPlayer = m_Player1;
             m_TicTacToe.Board.InitializeBoard();
             bool isUserSurrendered = false;
@@ -54,10 +53,10 @@ namespace ReverseTicTacToe
 
                 if (m_CurrentPlayer.PlayerType == ePlayerType.User)
                 {
-                    PlayUserTurn(1, i_BoardSize, out isUserSurrendered);
+                    playUserTurn(1, i_BoardSize, out isUserSurrendered);
                     if (isUserSurrendered)
                     {
-                        m_TicTacToe.Surrender(m_CurrentPlayer.Symbol);
+                        m_TicTacToe.Surrender(m_CurrentPlayer);
                         break;
                     }
                 }
@@ -67,7 +66,7 @@ namespace ReverseTicTacToe
                 }
 
                 displayBoard();
-                eGameState gameState = GetGameState(m_TicTacToe.Board);
+                eGameState gameState = getGameState(m_TicTacToe.Board);
 
                 if (gameState == eGameState.BoardFull)
                 {
@@ -77,8 +76,8 @@ namespace ReverseTicTacToe
 
                 if (gameState == eGameState.HasWinner)
                 {
-                    string opponentPlayerSymbol = getNextPlayer().Symbol.ToString();
-                    Console.WriteLine("The winner is {0} !!!!!", opponentPlayerSymbol);
+                    string opponentPlayerName = getNextPlayer().PlayerName;
+                    Console.WriteLine("The winner is {0} !!!!!", opponentPlayerName);
                     break;
                 }
 
@@ -86,7 +85,7 @@ namespace ReverseTicTacToe
             }
         }
 
-        public eGameState GetGameState(Board i_Board)
+        private eGameState getGameState(Board i_Board)
         {
             eGameState gameState = eGameState.Active;
             if (i_Board.HasWinner())
@@ -101,31 +100,33 @@ namespace ReverseTicTacToe
             return gameState;
         }
 
-        public void PlayUserTurn(int i_MinimumCellIndex, int i_MaximumCellIndex, out bool io_IsUserSurrendered)
+        private void playUserTurn(int i_MinimumCellIndex, int i_MaximumCellIndex, out bool io_IsUserSurrendered)
         {
-            bool isTurnValid = false;
+            eCellState cellState = eCellState.Empty;
             io_IsUserSurrendered = false;
             Point? coordinatesToPlay;
            
             do
             {
                 coordinatesToPlay = getCoordianteFromUser(i_MinimumCellIndex, i_MaximumCellIndex);
-                if (coordinatesToPlay == null)
+                if (coordinatesToPlay == null) //null means the user surrendered
                 {
                     io_IsUserSurrendered = true;
                     break;
                 }
 
                 Point boardPoint = convertUserPointToBoardPoint(coordinatesToPlay.Value);
-                isTurnValid = m_TicTacToe.TryPlayTurn(boardPoint, m_CurrentPlayer.Symbol);
-
-                if (!isTurnValid)
+                cellState = m_TicTacToe.TryPlayTurn(boardPoint, m_CurrentPlayer);
+                if (cellState == eCellState.Used)
                 {
-                    Console.WriteLine("invalid Input. Try again");
+                    Console.WriteLine("Cell is already Taken, please try again.");
+                }
+                else if (cellState == eCellState.OutOfRange)
+                {
+                    Console.WriteLine("Cell is out of range, please try again.");
                 }
 
-            } while (!isTurnValid);
-
+            } while (cellState != eCellState.Empty);
         }
         
         private Point convertUserPointToBoardPoint(Point i_Point)
@@ -152,12 +153,12 @@ namespace ReverseTicTacToe
 
             Console.WriteLine("Enter row number to draw ({0}-{1}) , Press 'Q' to Surrender.", i_MinimumValue, i_MaximumValue);
             ConsoleKeyInfo rowNumber = getValidConsoleKeyInfo(i_MinimumValue, i_MaximumValue);
-            if (rowNumber.Key != ConsoleKey.Q)
+            if (rowNumber.Key != k_QuitKey)
             {
                 Console.WriteLine("Enter column number to draw ({0}-{1}) , Press 'Q' to Surrender.", i_MinimumValue, i_MaximumValue);
                 ConsoleKeyInfo columnNumber = getValidConsoleKeyInfo(i_MinimumValue, i_MaximumValue);
 
-                if (columnNumber.Key != ConsoleKey.Q)
+                if (columnNumber.Key != k_QuitKey)
                 {
                     int row = ((int)Char.GetNumericValue(rowNumber.KeyChar));
                     int column = ((int)Char.GetNumericValue(columnNumber.KeyChar));
@@ -174,7 +175,7 @@ namespace ReverseTicTacToe
             Console.WriteLine();
             while (true)
             {
-                if (input.Key == ConsoleKey.Q || ((int)Char.GetNumericValue(input.KeyChar) >= i_MinimumValue && (int)Char.GetNumericValue(input.KeyChar) <= i_MaximumValue))
+                if (input.Key == k_QuitKey || ((int)Char.GetNumericValue(input.KeyChar) >= i_MinimumValue && (int)Char.GetNumericValue(input.KeyChar) <= i_MaximumValue))
                 {
                     return input;
                 }
@@ -236,12 +237,13 @@ namespace ReverseTicTacToe
 
         private void displayScores() 
         {
-            Console.WriteLine("{0}: {1}, {2}{3}: {4}",
-                m_Player1.Symbol.ToString(),
-                m_TicTacToe.GetScores().Player1,
+            Console.WriteLine("-- Scores --");
+            Console.WriteLine("{0}: {1} Points, {2}{3}: {4} Points",
+                m_Player1.PlayerName,
+                m_TicTacToe.GetScores().Player1.Score,
                 Environment.NewLine,
-                m_Player2.Symbol.ToString(),
-                m_TicTacToe.GetScores().Player2);
+                m_Player2.PlayerName,
+                m_TicTacToe.GetScores().Player2.Score);
         }
 
         private bool isPlayAnotherGame()
@@ -271,18 +273,18 @@ namespace ReverseTicTacToe
 
         private void playPcTurn(Player i_Player)
         {
-            m_TicTacToe.TryPlayTurn(i_Player.Symbol);
+            m_TicTacToe.TryPlayTurn(i_Player);
         }
 
         private int getBoardSize()
         {
             Screen.Clear();
-            Console.WriteLine("Enter board size ({0}-{1})", v_MinBoardSize, v_MaxBoardSize);
+            Console.WriteLine("Enter board size ({0}-{1})", k_MinBoardSize, k_MaxBoardSize);
             char input = Console.ReadKey().KeyChar;
             while (!Char.IsNumber(input) || Char.GetNumericValue(input) < 3)
             {
                 Screen.Clear();
-                Console.WriteLine("Invalid input, Enter board size ({0}-{1})", v_MinBoardSize, v_MaxBoardSize);
+                Console.WriteLine("Invalid input, Enter board size ({0}-{1})", k_MinBoardSize, k_MaxBoardSize);
                 input = Console.ReadKey().KeyChar;
             }
 

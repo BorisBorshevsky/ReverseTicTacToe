@@ -18,7 +18,7 @@ namespace ReverseTicTacToeLogic.Algorithms
                 for (int column = 0; column < i_Board.Size; column++)
                 {
                     Point currentMove = new Point(row, column);
-                    if (i_Board.IsValidMove(currentMove))
+                    if (i_Board.GetCellState(currentMove) == eCellState.Empty)
                     {
                         availableMoves.Add(currentMove);
                         if (!checkIfMoveEndsTheGame(i_Board, currentMove, i_CurrentUserSymbol))
@@ -55,7 +55,7 @@ namespace ReverseTicTacToeLogic.Algorithms
         {
             bool isMoveEndsTheGame = false;
             
-            if (i_Board.IsValidMove(i_Coordinates))
+            if (i_Board.GetCellState(i_Coordinates) == eCellState.Empty)
             {
                 i_Board.SetSymbol(i_SymbolToCheck, i_Coordinates);
                 if (i_Board.HasWinner())
