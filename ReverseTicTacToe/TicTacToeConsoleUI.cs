@@ -11,6 +11,9 @@ namespace ReverseTicTacToe
         private const int k_MinBoardSize = 3;
         private const int k_MaxBoardSize = 9;
         private const ConsoleKey k_QuitKey = ConsoleKey.Q;
+        private const string k_PlayerOneName = "Player1";
+        private const string k_PlayerTwoName = "Player2";
+
 
         private Player m_Player1;
         private Player m_Player2;
@@ -21,9 +24,9 @@ namespace ReverseTicTacToe
         {
             int boardSize = getBoardSize();
             ePlayerType opponentType = getOpponentPlayerType();
-            
-            m_Player1 = new Player(ePlayerType.User, eSymbol.X, "Player1");
-            m_Player2 = new Player(opponentType, eSymbol.O, "Player2");
+
+            m_Player1 = new Player(ePlayerType.User, eSymbol.X, k_PlayerOneName);
+            m_Player2 = new Player(opponentType, eSymbol.O, k_PlayerTwoName);
             m_TicTacToe = new TicTacToe(boardSize, m_Player1, m_Player2);
             while (true)
             {
